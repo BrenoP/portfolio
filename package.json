@@ -1,14 +1,15 @@
 {
-  "homepage": "http://BrenoP.github.io/portfolio-pessoal",
+  "homepage": "http://brenoP.github.io/portfolio-pessoal",
   "name": "portifolio-pessoal",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
+    "export": "next export",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && npm run export",
     "deploy": "gh-pages -d out"
   },
   "dependencies": {

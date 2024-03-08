@@ -6,17 +6,25 @@
 //   images: {
 //     unoptimized: true
 //   },
-//   basePath: process.env.NODE_ENV === 'production' ? '/portfolio' : '',
+//   basePath: process.env.NODE_ENV === 'production' ? '/portfolio-pessoal' : '',
 // };
 
 // export default nextConfig;
 
-const isGithubPages = process.env.NODE_ENV === 'production'
+import type { NextConfig } from "next";
 
-const repoName = 'portifolio-pessoal' // nome do repositório no GitHub
+const repo = 'portfolio-pessoal'; // nome exato do repositório no GitHub
 
-module.exports = {
-  basePath: isGithubPages ? `/${repoName}` : '',
-  assetPrefix: isGithubPages ? `/${repoName}/` : '',
-  trailingSlash: true, // importante para funcionar bem no GitHub Pages
-}
+const isProd = process.env.NODE_ENV === 'production';
+
+const nextConfig: NextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  },
+  basePath: isProd ? `/${repo}` : '',
+  assetPrefix: isProd ? `/${repo}/` : '',
+};
+
+export default nextConfig;
