@@ -13,7 +13,7 @@
 
 import type { NextConfig } from "next";
 
-const repo = 'portfolio-pessoal'; // nome exato do repositório no GitHub
+const repo = 'portfolio'; // nome exato do repositório no GitHub
 
 const isProd = process.env.NODE_ENV === 'production';
 
