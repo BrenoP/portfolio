@@ -1,4 +1,4 @@
-const repo = 'portfolio';
+const repo = 'portifolio';
 const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig = {
