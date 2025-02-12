@@ -85,21 +85,32 @@ export default function ProjetoPage() {
     );
   }
 
+  // Cores principais (iguais ao page.tsx)
+  const COLOR_BG = '#FFF7F3';
+  const COLOR_HEADER = '#001d3d';
+  const COLOR_SKILL_TAG_BG = 'rgba(255, 214, 10, .5)';
+  const COLOR_SKILL_TAG_BORDER = 'rgba(255, 214, 10, .5)';
+  const COLOR_SKILL_TAG_TEXT = '#001d3d';
+  const COLOR_SKILL_BAR = '#ffc300';
+  const COLOR_SECTION_BLUE = '#003566';
+
   return (
-    <div className="min-h-screen flex flex-col items-center py-16 px-4" style={{ background: '#FFF7F3' }}>
+    <div className="min-h-screen flex flex-col items-center py-16 px-4" style={{ background: COLOR_BG }}>
       <div className="w-full max-w-6xl mx-auto">
         <button
-          className="flex items-center gap-2 text-blue-800 hover:text-blue-600 mb-6 text-lg font-medium"
+          className="flex items-center gap-2 mb-6 text-lg font-medium"
+          style={{ color: COLOR_HEADER, cursor: 'pointer' }}
           onClick={() => router.push("/")}
         >
           <FaArrowLeft /> Voltar
         </button>
-        <h1 className="text-5xl font-extrabold text-blue-900 mb-6 text-center">{project.titulo}</h1>
+        <h1 className="text-5xl font-extrabold mb-6 text-center" style={{ color: COLOR_HEADER }}>{project.titulo}</h1>
         <div className="flex flex-wrap gap-3 justify-center mb-8">
           {project.tecnologias.map((tec: string) => (
             <button
               key={tec}
-              className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-mono shadow-sm border border-yellow-200 focus:outline-none hover:bg-yellow-200 transition"
+              className="px-4 py-2 rounded-full text-sm font-mono shadow-sm focus:outline-none transition"
+              style={{ background: COLOR_SKILL_TAG_BG, color: COLOR_SKILL_TAG_TEXT, border: `1px solid ${COLOR_SKILL_TAG_BORDER}` }}
               onClick={() => openSkillModal(tec)}
             >
               {tec}
@@ -108,12 +119,13 @@ export default function ProjetoPage() {
         </div>
         <div className="flex flex-col md:flex-row gap-10 items-center">
           <div className="flex-1">
-            <p className="text-lg whitespace-pre-line text-gray-700 mb-4">{project.descricao}</p>
+            <p className="text-lg text-gray-700 mb-4">{project.descricao}</p>
             <a
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-700 text-white rounded-full font-semibold shadow hover:bg-blue-800 transition mt-4"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-semibold shadow transition mt-4"
+              style={{ background: COLOR_HEADER, color: '#fff' }}
             >
               {project.link.includes("github.com") ? (
                 <><FaGithub /> GitHub</>

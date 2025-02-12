@@ -267,12 +267,12 @@ export default function Home() {
 
   // Cores principais
   const COLOR_BG = '#FFF7F3';
-  const COLOR_HEADER = '#332E2E';
-  const COLOR_SKILL_TAG_BG = '#FFF9C4'; // amarelo claro
-  const COLOR_SKILL_TAG_BORDER = '#FFECB3'; // amarelo mais escuro
-  const COLOR_SKILL_TAG_TEXT = '#332E2E';
-  const COLOR_SKILL_BAR = '#FFD600'; // barra lateral
-  const COLOR_SECTION_BLUE = '#1C398E';
+  const COLOR_HEADER = '#001d3d';
+  const COLOR_SKILL_TAG_BG = 'rgba(255, 214, 10, .5)'; // amarelo claro
+  const COLOR_SKILL_TAG_BORDER = 'rgba(255, 214, 10, .5)'; // amarelo mais escuro
+  const COLOR_SKILL_TAG_TEXT = '#001d3d';
+  const COLOR_SKILL_BAR = '#ffc300'; // barra lateral
+  const COLOR_SECTION_BLUE = '#003566';
 
   return (
     <div className="min-h-screen flex flex-col font-sans" style={{ background: COLOR_BG }}>
@@ -442,7 +442,7 @@ export default function Home() {
                 <p className="text-gray-700 mb-2 px-8">{proj.descricao.length > 100 ? proj.descricao.slice(0, 100) + '...' : proj.descricao}</p>
                 <div className="flex flex-wrap gap-2 mt-2 px-8 pb-6">
                   {proj.tecnologias.map((tec) => (
-                    <span key={tec} className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
+                    <span key={tec} style={{ background: COLOR_SKILL_TAG_BG }} className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
                   ))}
                 </div>
               </button>
@@ -574,7 +574,7 @@ export default function Home() {
               exit={{ scale: 0.8, opacity: 0, y: 40, transition: { duration: 0.2 } }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
-              <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold" onClick={() => setSkillModal(null)}>&times;</button>
+              <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold cursor-pointer" onClick={() => setSkillModal(null)}>&times;</button>
               <h2 className="text-2xl font-bold mb-4 text-blue-900">{skillModal}</h2>
               <h4 className="font-semibold mb-2 text-gray-900">{lang === 'pt' ? 'Projetos que usam esta habilidade:' : 'Projects using this skill:'}</h4>
               <ul className="flex flex-col gap-2">
@@ -584,7 +584,7 @@ export default function Home() {
                 {skillProjects.map((proj) => (
                   <li key={proj.titulo}>
                     <button
-                      className="w-full text-left px-3 py-2 rounded hover:bg-blue-50 transition font-medium text-blue-900"
+                      className="w-full cursor-pointer text-left px-3 py-2 rounded hover:bg-blue-50 transition font-medium text-blue-900"
                       onClick={() => openProjectFromSkill(proj)}
                     >
                       {proj.titulo}
