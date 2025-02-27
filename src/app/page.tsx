@@ -9,6 +9,7 @@ import Select from "react-select";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useState as useReactState } from "react";
 
 interface PersonalInfo {
   nome: string;
@@ -127,6 +128,9 @@ export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Projeto | null>(null);
   const [skillModal, setSkillModal] = useState<string | null>(null);
   const [skillProjects, setSkillProjects] = useState<Projeto[]>([]);
+
+  // Estado do menu lateral mobile
+  const [drawerOpen, setDrawerOpen] = useReactState(false);
 
   // Refs para scroll suave
   const heroRef = useRef<HTMLDivElement>(null!);
@@ -281,43 +285,97 @@ export default function Home() {
         <div className="w-full max-w-5xl flex items-center justify-between gap-4">
           <span className="font-extrabold text-4xl tracking-tight" style={{ color: COLOR_HEADER }}>{info ? info.nome : ""}</span>
           <div className="flex items-center gap-4">
-            <div style={{ minWidth: 80 }}>
-              <Select
-                options={langOptions}
-                value={langOptions.find((o) => o.value === lang)}
-                onChange={(opt: { value: string; label: string } | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
-                styles={customSelectStyles}
-                isSearchable={false}
-                aria-label="Selecionar idioma"
-                className="focus:outline-none"
-              />
+            <div className="block md:hidden">
+              <button
+                className="p-2 rounded focus:outline-none border border-gray-200"
+                aria-label="Abrir menu"
+                onClick={() => setDrawerOpen(true)}
+              >
+                <span className="sr-only">Abrir menu</span>
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
             </div>
-            <nav className="flex gap-6 text-base font-medium">
-              <button
-                className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
-                onClick={() => scrollToSection(heroRef)}
-              >
-                {lang === 'pt' ? 'Sobre' : 'About'}
-              </button>
-              <button
-                className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
-                onClick={() => scrollToSection(habilidadesRef)}
-              >
-                {lang === 'pt' ? 'Habilidades' : 'Skills'}
-              </button>
-              <button
-                className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
-                onClick={() => scrollToSection(projetosRef)}
-              >
-                {t[lang].navProjects}
-              </button>
-            </nav>
+            <div className="hidden md:flex items-center gap-4">
+              <div style={{ minWidth: 80 }}>
+                <Select
+                  options={langOptions}
+                  value={langOptions.find((o) => o.value === lang)}
+                  onChange={(opt: { value: string; label: string } | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
+                  styles={customSelectStyles}
+                  isSearchable={false}
+                  aria-label="Selecionar idioma"
+                  className="focus:outline-none"
+                />
+              </div>
+              <nav className="flex gap-6 text-base font-medium">
+                <button
+                  className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
+                  onClick={() => scrollToSection(heroRef)}
+                >
+                  {lang === 'pt' ? 'Sobre' : 'About'}
+                </button>
+                <button
+                  className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
+                  onClick={() => scrollToSection(habilidadesRef)}
+                >
+                  {lang === 'pt' ? 'Habilidades' : 'Skills'}
+                </button>
+                <button
+                  className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
+                  onClick={() => scrollToSection(projetosRef)}
+                >
+                  {t[lang].navProjects}
+                </button>
+              </nav>
+            </div>
           </div>
         </div>
+        {/* Drawer mobile */}
+        <AnimatePresence>
+          {drawerOpen && (
+            <motion.div
+              className="fixed inset-0 z-50 flex"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setDrawerOpen(false)}
+            >
+              <motion.div
+                className="bg-white w-64 h-full shadow-2xl p-8 flex flex-col gap-8"
+                initial={{ x: -300 }}
+                animate={{ x: 0 }}
+                exit={{ x: -300 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                onClick={e => e.stopPropagation()}
+              >
+                <button className="self-end mb-8 text-2xl text-gray-400 hover:text-gray-700" onClick={() => setDrawerOpen(false)}>&times;</button>
+                <nav className="flex flex-col gap-6 text-lg font-medium">
+                  <button className="text-left" style={{ color: COLOR_HEADER }} onClick={() => { setDrawerOpen(false); scrollToSection(heroRef); }}>{lang === 'pt' ? 'Sobre' : 'About'}</button>
+                  <button className="text-left" style={{ color: COLOR_HEADER }} onClick={() => { setDrawerOpen(false); scrollToSection(habilidadesRef); }}>{lang === 'pt' ? 'Habilidades' : 'Skills'}</button>
+                  <button className="text-left" style={{ color: COLOR_HEADER }} onClick={() => { setDrawerOpen(false); scrollToSection(projetosRef); }}>{t[lang].navProjects}</button>
+                  <div className="mt-8">
+                    <Select
+                      options={langOptions}
+                      value={langOptions.find((o) => o.value === lang)}
+                      onChange={(opt: { value: string; label: string } | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
+                      styles={customSelectStyles}
+                      isSearchable={false}
+                      aria-label="Selecionar idioma"
+                      className="focus:outline-none"
+                    />
+                  </div>
+                </nav>
+              </motion.div>
+              <div className="flex-1 bg-black/30" />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Hero Section - estilo inspirado na referência */}
-      <section ref={heroRef} className="w-full flex flex-col items-center justify-center min-h-[60vh] mb-8" style={{ background: COLOR_BG, paddingTop: '5rem', paddingBottom: '5rem' }}>
+      <section ref={heroRef} className="w-full flex flex-col items-center justify-center min-h-[60vh] mb-8 px-2" style={{ background: COLOR_BG, paddingTop: '5rem', paddingBottom: '5rem' }}>
         {info && (
           <div className="w-full max-w-5xl flex flex-col md:flex-row items-center md:items-start gap-12 animate-fade-in">
             <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
@@ -346,7 +404,7 @@ export default function Home() {
 
       {/* Sobre mim + Soft Skills juntos */}
       <section className="w-full border-b border-gray-200 py-20" style={{ background: COLOR_SECTION_BLUE }}>
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 items-center">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 items-center px-2">
           <div className="flex-1 flex flex-col items-center md:items-start">
             <p className="whitespace-pre-line text-base text-lg text-gray-700 mb-6 text-center md:text-left" style={{ color: 'white' }}>
               {lang === 'pt'
@@ -380,7 +438,7 @@ export default function Home() {
 
       {/* Habilidades Section - tópicos estilizado sem cards */}
       <section ref={habilidadesRef} className="w-full border-b border-gray-200 py-20" style={{ background: COLOR_BG }}>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-2">
           <h3 className="text-3xl font-bold mb-12 text-left">{lang === 'pt' ? 'Habilidades' : 'Skills'}</h3>
           <div className="flex flex-col gap-12">
             {habilidadesTopicos.length > 0 ? habilidadesTopicos.map((topico, idx) => (
@@ -421,7 +479,7 @@ export default function Home() {
 
       {/* Projetos Section - todos juntos */}
       <section ref={projetosRef} className="w-full py-20" style={{ background: COLOR_BG }}>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-2">
           <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: COLOR_HEADER }}>{lang === 'pt' ? 'Projetos' : 'Projects'}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
             {allProjects.map((proj) => (
@@ -454,7 +512,7 @@ export default function Home() {
       {/* Quem já contou com meu trabalho - carrossel de imagens */}
       <section className="w-full py-20 overflow-x-hidden" style={{ background: COLOR_BG }}>
         <h3 className="text-3xl font-bold mb-8 text-center" style={{ color: COLOR_HEADER }}>{lang === 'pt' ? 'Quem já contou com meu trabalho' : 'Who has trusted my work'}</h3>
-        <div style={{ maxWidth: 900, width: '60vw', margin: '0 auto' }}>
+        <div style={{ maxWidth: 900, width: '100%', margin: '0 auto' }}>
           <Slider
             dots={false}
             infinite={true}
@@ -497,7 +555,7 @@ export default function Home() {
 
       {/* Contato Section - texto grande + redes sociais */}
       <section className="w-full py-20" style={{ background: COLOR_HEADER }}>
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12 px-2">
           <div className="flex-1">
             <h2 className="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight text-center md:text-left" style={{ color: "#fff" }}>
               {lang === 'pt' ? 'Mantenha contato' : 'Keep in touch'}

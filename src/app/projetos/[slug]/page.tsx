@@ -104,8 +104,8 @@ export default function ProjetoPage() {
         >
           <FaArrowLeft /> Voltar
         </button>
-        <h1 className="text-5xl font-extrabold mb-6 text-center" style={{ color: COLOR_HEADER }}>{project.titulo}</h1>
-        <div className="flex flex-wrap gap-3 justify-center mb-8">
+        <h1 className="text-5xl font-extrabold mb-12 text-center" style={{ color: COLOR_HEADER }}>{project.titulo}</h1>
+        <div className="flex flex-wrap gap-3 justify-center mb-12">
           {project.tecnologias.map((tec: string) => (
             <button
               key={tec}
@@ -158,7 +158,7 @@ export default function ProjetoPage() {
               exit={{ scale: 0.8, opacity: 0, y: 40, transition: { duration: 0.2 } }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
-              <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold" onClick={() => setSkillModal(null)}>&times;</button>
+              <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold cursor-pointer" onClick={() => setSkillModal(null)}>&times;</button>
               <h2 className="text-2xl font-bold mb-4 text-blue-900">{skillModal}</h2>
               <h4 className="font-semibold mb-2 text-gray-900">Projetos que usam esta habilidade:</h4>
               <ul className="flex flex-col gap-2">
@@ -168,7 +168,7 @@ export default function ProjetoPage() {
                 {skillProjects.map((proj) => (
                   <li key={proj.titulo}>
                     <button
-                      className="w-full text-left px-3 py-2 rounded hover:bg-blue-50 transition font-medium text-blue-900"
+                      className="w-full text-left px-3 py-2 rounded hover:bg-blue-50 transition font-medium text-blue-900 cursor-pointer"
                       onClick={() => openProjectFromSkill(proj)}
                     >
                       {proj.titulo}
