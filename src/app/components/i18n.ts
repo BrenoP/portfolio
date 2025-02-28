@@ -11,8 +11,8 @@ const t: Translations = {
     loading: 'Carregando informações...'
   },
   en: {
-    profession: (info) => info?.profissao || '',
-    subtitle: (info) => info?.descricao || '',
+    profession: (info) => info?.job || '',
+    subtitle: (info) => info?.description || '',
     personalProjects: 'Personal Projects',
     professionalProjects: 'Professional Projects',
     navProjects: 'Projects',

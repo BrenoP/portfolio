@@ -73,8 +73,8 @@ export default function SobrePage() {
         <div className="max-w-4xl mx-auto">
           <h3 className="text-3xl font-bold mb-10 text-white">Formação Acadêmica</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {formacoes.map((f) => (
-              <div key={f.titulo} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border border-gray-100 hover:shadow-2xl transition">
+            {formacoes.map((f, i) => (
+              <div key={i} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border border-gray-100 hover:shadow-2xl transition">
                 <h4 className="text-lg font-bold mb-1 text-[#001d3d]">{f.titulo}</h4>
                 <p className="text-gray-700 mb-2">{f.descricao}</p>
                 <a href={f.linkCertificado} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#ffc300] text-[#001d3d] rounded-full font-semibold shadow hover:bg-[#ffe066] transition w-fit">
@@ -93,8 +93,8 @@ export default function SobrePage() {
           <div className="relative flex flex-col gap-16">
             {/* Linha vertical centralizada (timeline) */}
             <div className="absolute left-1/2 top-0 h-full w-1 bg-gray-200 z-0" style={{ transform: 'translateX(-50%)' }} />
-            {experiencias.map((exp) => (
-              <div key={exp.titulo + exp.empresa} className="relative flex flex-row gap-6 bg-white rounded-2xl shadow-lg p-8 border border-gray-100 z-10 items-center max-w-2xl mx-auto">
+            {experiencias.map((exp, index) => (
+              <div key={index} className="relative flex flex-row gap-6 bg-white rounded-2xl shadow-lg p-8 border border-gray-100 z-10 items-center max-w-2xl mx-auto">
                 {exp.logo && (
                   <div className="hidden md:flex flex-shrink-0 items-center justify-center w-20 h-20 bg-gray-100 rounded-xl overflow-hidden mr-4">
                     <Image src={exp.logo.replace('/public', '')} alt={exp.empresa} width={64} height={64} className="object-contain w-full h-full" />

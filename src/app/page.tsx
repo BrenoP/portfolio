@@ -25,8 +25,7 @@ import { useState as useReactState } from "react";
 import t from "./components/i18n";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
-
+import { projectsData, habilidadesData } from './data/projects';
 
 export default function Home() {
   const [info, setInfo] = useState<PersonalInfo | null>(null);
@@ -58,17 +57,19 @@ export default function Home() {
     fetch("/api/personal-info")
       .then((res) => res.json())
       .then(setInfo);
-    fetch("/api/projects")
-      .then((res) => res.json())
-      .then((data) => {
-        setProjects(data);
-        if (data.habilidades) setHabilidadesTopicos(data.habilidades);
-        // Unificar tecnologias dos projetos pessoais e profissionais, removendo duplicatas
-        const allProjects = [...(data.pessoais || []), ...(data.profissionais || [])];
-        const allTechs = allProjects.flatMap((proj) => proj.tecnologias || []);
-        const uniqueTechs = Array.from(new Set(allTechs));
-        setHardSkills(uniqueTechs);
-      });
+    
+    // Usar dados estáticos para projetos
+    setProjects(projectsData);
+    
+    // Usar dados estáticos para habilidades
+    setHabilidadesTopicos(habilidadesData);
+    
+    // Unificar tecnologias dos projetos pessoais e profissionais, removendo duplicatas
+    const allProjects = [...projectsData.pessoais, ...projectsData.profissionais];
+    const allTechs = allProjects.flatMap((proj) => proj.tecnologias || []);
+    const uniqueTechs = Array.from(new Set(allTechs));
+    setHardSkills(uniqueTechs);
+    
     setYear(new Date().getFullYear());
   }, []);
 
@@ -109,15 +110,15 @@ export default function Home() {
         .sort((a, b) => (b.data && a.data) ? Number(b.data) - Number(a.data) : 0)
     : [];
 
-  // Imagens fictícias para o carrossel de clientes
+  // Imagens para o carrossel de clientes
   const clientImages = [
-    '/public/zappts.png',
-    '/public/ultragaz.png',
-    '/public/cea.png',
-    '/public/compass.png',
-    '/public/porto.png',
-    '/public/meetime.png',
-    '/public/vivo.png',
+    '/zappts.png',
+    '/ultragaz.png',
+    '/cea.png',
+    '/compass.png',
+    '/porto.png',
+    '/meetime.png',
+    '/vivo.png',
   ];
 
   // Opções para o select de linguagem
@@ -197,16 +198,16 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-2">
           <Title size="text-3xl" className="mb-12 text-left">{lang === 'pt' ? 'Habilidades' : 'Skills'}</Title>
           <div className="flex flex-col gap-12">
-            {habilidadesTopicos.length > 0 ? habilidadesTopicos.map((topico) => (
-              <div key={topico.titulo} className="flex flex-col gap-4">
+            {habilidadesTopicos.length > 0 ? habilidadesTopicos.map((topico, index) => (
+              <div key={index} className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <span className="block w-2 h-8 rounded" style={{ background: COLOR_SKILL_BAR }} />
                   <h4 className="text-lg font-bold" style={{ color: COLOR_HEADER, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{topico.titulo}</h4>
                 </div>
                 <div className="flex flex-wrap gap-3 mt-2">
-                  {topico.skills.map((skill) => (
+                  {topico.skills.map((skill, index) => (
                     <button
-                      key={skill}
+                      key={index}
                       className="px-5 py-2 rounded-full text-base font-mono shadow hover:shadow-md focus:outline-none transition cursor-pointer"
                       style={{ background: COLOR_SKILL_TAG_BG, color: COLOR_SKILL_TAG_TEXT, border: `1px solid ${COLOR_SKILL_TAG_BORDER}` }}
                       onClick={() => openSkillModal(skill)}
@@ -218,9 +219,9 @@ export default function Home() {
               </div>
             )) : (
               <div className="flex flex-wrap gap-4">
-                {hardSkills.map((skill) => (
+                {hardSkills.map((skill, index) => (
                   <button
-                    key={skill}
+                    key={index}
                     className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-mono shadow-sm border border-yellow-200 focus:outline-none hover:bg-yellow-200 transition cursor-pointer"
                     onClick={() => openSkillModal(skill)}
                   >
@@ -238,9 +239,9 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-2">
           <Title size="text-3xl" color={COLOR_HEADER} className="mb-8 text-left">{lang === 'pt' ? 'Projetos' : 'Projects'}</Title>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
-            {allProjects.map((proj) => (
+            {allProjects.map((proj, index) => (
               <button
-                key={proj.titulo}
+                key={index}
                 onClick={() => router.push(`/projetos/${encodeURIComponent(proj.titulo.toLowerCase().replace(/\s+/g, '-'))}`)}
                 className="block w-full text-left bg-white border border-gray-200 rounded-xl p-0 shadow-sm transition-all group focus:outline-none cursor-pointer hover:bg-[#F9FAFB] h-[480px] flex flex-col"
                 style={{ minHeight: 480 }}
@@ -256,8 +257,8 @@ export default function Home() {
                   <p className="text-gray-700 mb-2">{proj.descricao.length > 100 ? proj.descricao.slice(0, 100) + '...' : proj.descricao}</p>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-auto px-8 pb-6">
-                  {proj.tecnologias.map((tec) => (
-                    <span key={tec} style={{ background: COLOR_SKILL_TAG_BG }} className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
+                  {proj.tecnologias.map((tec, index) => (
+                    <span key={index} style={{ background: COLOR_SKILL_TAG_BG }} className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
                   ))}
                 </div>
               </button>
@@ -287,7 +288,7 @@ export default function Home() {
             {clientImages.map((img, idx) => (
               <div key={idx} className="flex items-center justify-center w-full h-56 md:h-60 lg:h-64 px-6">
                 <Image
-                  src={img.replace('/public', '')}
+                  src={img}
                   className="w-full h-full object-contain"
                   alt={`Cliente ${idx + 1}`}
                   width={220}
@@ -354,8 +355,8 @@ export default function Home() {
               <div className="mb-4">
                 <h4 className="font-semibold mb-2 text-gray-900">{lang === 'pt' ? 'Tecnologias utilizadas:' : 'Technologies used:'}</h4>
                 <div className="flex flex-wrap gap-2">
-                  {selectedProject.tecnologias.map((tec) => (
-                    <span key={tec} className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
+                  {selectedProject.tecnologias.map((tec, index) => (
+                    <span key={index} className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
                   ))}
                 </div>
               </div>
@@ -396,8 +397,8 @@ export default function Home() {
                 {skillProjects.length === 0 && (
                   <li className="text-gray-500 text-sm">{lang === 'pt' ? 'Nenhum projeto encontrado.' : 'No projects found.'}</li>
                 )}
-                {skillProjects.map((proj) => (
-                  <li key={proj.titulo}>
+                {skillProjects.map((proj, index) => (
+                  <li key={index}>
                     <button
                       className="w-full cursor-pointer text-left px-3 py-2 rounded hover:bg-blue-50 transition font-medium text-blue-900"
                       onClick={() => openProjectFromSkill(proj)}
