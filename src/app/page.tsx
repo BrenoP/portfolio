@@ -27,6 +27,8 @@ interface Projeto {
   descricao: string;
   link: string;
   tecnologias: string[];
+  data: string; // Adicionado para armazenar a data
+  imagem?: string; // Adicionado para armazenar a imagem
 }
 
 interface Projects {
@@ -195,17 +197,7 @@ export default function Home() {
   // Unir todos os projetos para exibição única
   const allProjects = projects
     ? [...projects.pessoais, ...projects.profissionais]
-        .map((proj, idx) => ({
-          ...proj,
-          // Exemplo de datas mock: datas decrescentes
-          data: [
-            '2024-06-01', '2024-05-15', '2024-04-10', '2024-03-20', '2024-02-01',
-            '2023-12-10', '2023-10-05', '2023-08-15', '2023-06-01', '2023-04-10',
-            '2023-02-01', '2022-12-10', '2022-10-05', '2022-08-15', '2022-06-01',
-            '2022-04-10', '2022-02-01', '2021-12-10', '2021-10-05', '2021-08-15',
-          ][idx % 20] || '2021-01-01',
-        }))
-        .sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime())
+        .sort((a, b) => (b.data && a.data) ? Number(b.data) - Number(a.data) : 0)
     : [];
 
   // Imagens fictícias para o carrossel de clientes
@@ -303,15 +295,25 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section ref={heroRef} className="w-full flex flex-col items-center justify-center py-20 bg-white" style={{ background: "#FFF7F3" }}>
+      {/* Hero Section - estilo inspirado na referência */}
+      <section ref={heroRef} className="w-full flex flex-col items-center justify-center min-h-[60vh]" style={{ background: "#FFF7F3", paddingTop: '5rem', paddingBottom: '5rem' }}>
         {info && (
-          <div className="w-full max-w-3xl flex flex-col items-center text-center gap-6 animate-fade-in">
-            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-200 shadow-lg mb-4">
-              <Image src={info.foto} alt={info.nome} width={128} height={128} className="object-cover w-full h-full" />
+          <div className="w-full max-w-5xl flex flex-col md:flex-row items-center md:items-start gap-12 animate-fade-in">
+            <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
+              <h1 className="text-5xl sm:text-7xl font-extrabold mb-4" style={{ color: '#332E2E', lineHeight: 1.1 }}>{info.profissao}</h1>
+              <p className="text-xl text-gray-700 mb-4 max-w-2xl">{t[lang].subtitle}</p>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">{t[lang].profession}</h2>
-            <p className="text-lg text-gray-700 max-w-xl mb-2">{t[lang].subtitle}</p>
+            <div className="flex-1 flex justify-center md:justify-end items-center">
+              <div className="w-56 h-72 md:w-64 md:h-80 overflow-hidden bg-gray-200 flex items-center justify-center shadow-lg" style={{ borderRadius: '50% / 40%' }}>
+                <Image
+                  src={info.foto}
+                  alt={info.nome}
+                  width={256}
+                  height={320}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            </div>
           </div>
         )}
         {(!info) && (
@@ -320,10 +322,10 @@ export default function Home() {
       </section>
 
       {/* Sobre mim + Soft Skills juntos */}
-      <section className="w-full border-b border-gray-200 py-20" style={{ background: "#FFF7F3" }}>
+      <section className="w-full border-b border-gray-200 py-20" style={{ background: "#1C398E" }}>
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
           <div className="flex-1 flex flex-col items-center md:items-start">
-            <p className="text-lg text-gray-700 mb-6 text-center md:text-left">
+            <p className="text-lg text-gray-700 mb-6 text-center md:text-left" style={{ color: 'white', margin: '5rem 0 5rem 0' }}>
               {lang === 'pt'
                 ? sobre
                 : about}
@@ -340,7 +342,7 @@ export default function Home() {
       </section>
 
       {/* Texto grande + imagem ao lado */}
-      <section className="w-full border-b border-gray-200 py-20" style={{ background: "#1C398E" }}>
+      {/* <section className="w-full border-b border-gray-200 py-20" style={{ background: "#1C398E" }}>
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1">
             <h2 className="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight text-center md:text-left" style={{ color: "#fff" }}>
@@ -351,7 +353,7 @@ export default function Home() {
             <Image src="/globe.svg" alt="Globo" width={220} height={220} className="rounded-2xl shadow-lg" />
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Habilidades Section */}
       <section ref={habilidadesRef} className="w-full border-b border-gray-200 py-20" style={{ background: "#FFF7F3" }}>
@@ -380,14 +382,19 @@ export default function Home() {
               <button
                 key={proj.titulo}
                 onClick={() => router.push(`/projetos/${encodeURIComponent(proj.titulo.toLowerCase().replace(/\s+/g, '-'))}`)}
-                className="block w-full text-left bg-white border border-gray-200 rounded-xl p-8 shadow-sm transition-all group focus:outline-none cursor-pointer hover:bg-[#F9FAFB]"
+                className="block w-full text-left bg-white border border-gray-200 rounded-xl p-0 shadow-sm transition-all group focus:outline-none cursor-pointer hover:bg-[#F9FAFB]"
               >
-                <div className="flex flex-col gap-1 mb-2">
-                  <span className="text-xs text-gray-400">{proj.data && new Date(proj.data).toLocaleDateString('pt-BR', { year: 'numeric', month: 'short' })}</span>
+                {proj.imagem && (
+                  <div className="w-full h-40 rounded-t-xl overflow-hidden flex items-center justify-center bg-gray-100">
+                    <img src={proj.imagem} alt={proj.titulo} className="object-cover w-full h-full" />
+                  </div>
+                )}
+                <div className="flex flex-col gap-1 mb-2 px-8 pt-6">
+                  <span className="text-xs text-gray-400">{proj.data}</span>
                   <h4 className="text-lg font-semibold mb-1 group-hover:no-underline" style={{ color: '#332E2E' }}>{proj.titulo}</h4>
                 </div>
-                <p className="text-gray-700 mb-2">{proj.descricao.length > 100 ? proj.descricao.slice(0, 100) + '...' : proj.descricao}</p>
-                <div className="flex flex-wrap gap-2 mt-2">
+                <p className="text-gray-700 mb-2 px-8">{proj.descricao.length > 100 ? proj.descricao.slice(0, 100) + '...' : proj.descricao}</p>
+                <div className="flex flex-wrap gap-2 mt-2 px-8 pb-6">
                   {proj.tecnologias.map((tec) => (
                     <span key={tec} className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
                   ))}
@@ -399,34 +406,37 @@ export default function Home() {
       </section>
 
       {/* Quem já contou com meu trabalho - carrossel de imagens */}
-      <section className="w-full py-20" style={{ background: "#FFF7F3" }}>
-        <div className="max-w-5xl mx-auto">
+      <section className="w-full py-20 overflow-x-hidden" style={{ background: "#FFF7F3" }}>
+        <div className="max-w-5xl mx-auto w-full">
           <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: '#332E2E' }}>{lang === 'pt' ? 'Quem já contou com meu trabalho' : 'Who has trusted my work'}</h3>
-          <Slider
-            dots={false}
-            infinite={true}
-            speed={500}
-            slidesToShow={3.5}
-            slidesToScroll={1}
-            responsive={[
-              { breakpoint: 1024, settings: { slidesToShow: 2.5 } },
-              { breakpoint: 768, settings: { slidesToShow: 1.5 } },
-              { breakpoint: 480, settings: { slidesToShow: 1 } },
-            ]}
-            arrows={true}
-            className="carousel-clients half-slide-carousel"
-          >
-            {clientImages.map((img, idx) => (
-              <div key={idx} className="flex items-center justify-center w-full h-32 md:h-36 lg:h-40 px-4">
-                <Image src={img.replace('/public', '')} alt={`Cliente ${idx + 1}`} width={180} height={80} style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
-              </div>
-            ))}
-          </Slider>
+          <div className="w-full max-w-full">
+            <Slider
+              dots={false}
+              infinite={true}
+              speed={500}
+              slidesToShow={3.5}
+              slidesToScroll={1}
+              responsive={[
+                { breakpoint: 1024, settings: { slidesToShow: 2.5 } },
+                { breakpoint: 768, settings: { slidesToShow: 1.5 } },
+                { breakpoint: 480, settings: { slidesToShow: 1 } },
+              ]}
+              arrows={true}
+              className="carousel-clients half-slide-carousel"
+            >
+              {clientImages.map((img, idx) => (
+                <div key={idx} className="flex items-center justify-center w-full h-32 md:h-36 lg:h-40 px-4">
+                  <Image src={img.replace('/public', '')} alt={`Cliente ${idx + 1}`} width={180} height={80} style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
+                </div>
+              ))}
+            </Slider>
+          </div>
         </div>
         <style jsx global>{`
           .half-slide-carousel .slick-list {
             overflow: visible !important;
             padding-right: 0 !important;
+            max-width: 100vw;
           }
           .half-slide-carousel .slick-slide {
             transition: transform 0.3s;

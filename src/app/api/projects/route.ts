@@ -9,12 +9,16 @@ export async function GET() {
         descricao: 'Descrição do projeto pessoal 1.',
         link: 'https://github.com/seuusuario/projeto-pessoal-1',
         tecnologias: ['React', 'Node.js'],
+        data: '2024',
+        imagem: 'https://via.placeholder.com/150',
       },
       {
         titulo: 'Projeto Pessoal 2',
         descricao: 'Descrição do projeto pessoal 2.',
         link: 'https://github.com/seuusuario/projeto-pessoal-2',
         tecnologias: ['Next.js', 'Tailwind CSS'],
+        data: '2024',
+        imagem: 'https://via.placeholder.com/150',
       },
     ],
     profissionais: [
@@ -45,6 +49,8 @@ export async function GET() {
           "Webpack", 
           "AWS Code Commit", 
         ],
+        data: '2021',
+        imagem: 'https://via.placeholder.com/150',
       },
       {
         titulo: 'C&A',
@@ -70,6 +76,8 @@ export async function GET() {
           "React.js", 
           "Webpack", 
         ],
+        data: '2022',
+        imagem: 'https://via.placeholder.com/150',
       },
       {
         titulo: 'Porto viagens PWA',
@@ -99,6 +107,8 @@ export async function GET() {
           "Integração e entrega contínuas (CI/CD)", 
           "Styled-components"
         ],
+        data: '2023',
+        imagem: 'https://via.placeholder.com/150',
       },
       {
         titulo: 'Meetime FLOW',
@@ -127,6 +137,8 @@ export async function GET() {
           "ESLint", 
           "Jasmine Framework"
         ],
+        data: '2024',
+        imagem: 'https://via.placeholder.com/150',
       },
       {
         titulo: 'IA manager Vivo Aura',
@@ -154,6 +166,8 @@ export async function GET() {
           "Zustand", 
           "Zod"
         ],
+        data: '2025',
+        imagem: 'https://via.placeholder.com/150',
       },
     ],
   });
