@@ -191,6 +191,67 @@ export async function GET() {
       'Sou formado em analise e desenvolvimento de sistemas na ETEP. Comecei atuando como desenvolvedor em 2018.',
       'Dentre as tecnologias que utilizo para desenvolver tenho mais domínio em: ReactJS e o NextJS, Typescript para tipagem e maior controle do código, Styled componentes para estilização, React testing library para testes, Context API no gerenciamento de estados e NodeJS para criação de api\'s. Já trabalhei com diversas outras tecnologias e sempre busco me adaptar no desenvolvimento.',
       'Sempre busco aprender coisas novas e atualizar a forma como desenvolvo, para estar sempre por dentro das melhores práticas e métodos de desenvolvimento. Também busco trabalhar junto da equipe para superar os desafios.'
+    ],
+    formacoes: [
+      {
+        titulo: 'Análise e Desenvolvimento de Sistemas',
+        descricao: 'Formação superior na ETEP Faculdades, com foco em desenvolvimento web, arquitetura de software e metodologias ágeis.',
+        linkCertificado: 'https://www.linkedin.com/school/etep-faculdades/'
+      },
+      {
+        titulo: 'React com Typescript',
+        descricao: 'Curso avançado de ReactJS com Typescript, abordando hooks, context API e testes.',
+        linkCertificado: 'https://www.udemy.com/certificate/react-typescript/'
+      },
+      {
+        titulo: 'Inglês Avançado',
+        descricao: 'Curso de inglês avançado com foco em conversação e leitura técnica.',
+        linkCertificado: 'https://www.linkedin.com/in/breno/'
+      }
+    ],
+    experiencias: [
+      {
+        titulo: 'Desenvolvedor de front-end Pleno',
+        empresa: 'Mutant',
+        periodo: 'abr de 2024 - o momento · 1 ano 4 meses',
+        descricao: 'Desenvolvedor de Front end Pleno atuando no projeto da Vivo Aura, inteligência artificial da vivo, dentro da plataforma principal da IA.\n- Atuação com React e suas principais tecnologias (Typescript, Context, Zustand, Hooks entre outras)\n- Criação de novas funcionalidades para a IA, com conexões com api\'s da Meta.\n- Atuação no projeto com Micro frontends e Feature flags.\n- Formulários com Zod e React Hook Form.\n- CI/CD com Azure Devops na manutenção e criação de Pipelines automatizadas e Builds para a entrega das Features.',
+        logo: '/public/mutant.jfif'
+      },
+      {
+        titulo: 'Desenvolvedor de front-end',
+        empresa: 'Meetime',
+        periodo: 'ago de 2023 - mar de 2024 · 8 meses',
+        descricao: 'Desenvolvedor Front-end no produto principal da Meetime, sendo o Meetime flow, que é uma plataforma de sales engagement que ajuda os SDR\'s em sua rotina de prospecção.\n- Criação de novas páginas e componentes para integração do Meetime FLOW, como modal de atividades, serviços de feature flag entre outros.\n- Criação de testes unitários de componentes com o Jasmine.\n- Manutenção do sistema do Flow como um todo, testando o sistema, refatorando componentes e resolvendo bugs.',
+        logo: '/public/meetime.png'
+      },
+      {
+        titulo: 'Desenvolvedor web front-end Pleno',
+        empresa: 'Compass.uol',
+        periodo: 'fev de 2022 - jan de 2023 · 1 ano',
+        descricao: 'Desenvolvedor web front end no time de Adobe experience manager (AEM), plataforma para criação de sites institucionais e landing pages.\n- Criação de componentes reutilizáveis e responsivos.\n- Integração com APIs REST e GraphQL.\n- Participação em reuniões de planejamento e retrospectiva.',
+        logo: '/public/compass.png'
+      },
+      {
+        titulo: 'Desenvolvedor de front-end Pleno',
+        empresa: 'Zappts',
+        periodo: 'abr de 2020 - fev de 2022 · 1 ano e 11 meses',
+        descricao: 'Desenvolvedor Front end WEB, atuando em grandes projetos WEB mobile e desktop. \n- Desenvolvedor Front end do Ultragaz revenda, uma aplicação web focada no mobile para conexão dos revendedores com a empresa Ultragaz, nele existiam diversas funcionalidades para ajudar o revendedor além de um sistema de pontos integrado na aplicação, além disso existiam integrações com Api´s em micro serviço, autenticação de usuários, cookies de segurança, interações e edição de pdf entre outros. A Aplicação era hospedada na cloud da AWS e eram utilizadas pipelines automatizadas. \n- Atuação no time da parte de produtos e de marketplace no site principal da C&A, atuando como desenvolvedor VTEX (plataforma para Ecommerce) e utilizando a própria plataforma para controle das páginas. Era utilizado o padrão de micro front-ends para a organização das diferentes partes do site e o mesmo era hospedado na Cloud da própria VTEX.',
+        logo: '/public/zappts.png'
+      },
+      {
+        titulo: 'Desenvolvedor de front-end Junior',
+        empresa: 'Coyô Software e Comunicação',
+        periodo: 'out de 2019 - mar de 2020 · 6 meses',
+        descricao: 'Desenvolvedor Front end web e mobile atuando em diversos projetos com Angular/React e Ionic. \n- Projetos de pequenos ecommerces com Ionic, usando ferramentas nativas para os aplicativos como uso da câmera e notificações e integrações com API´s Ruby on Rails. \n- Criação de Dashboards e menus interativos em projetos com React e Redux saga integrados com Api´s em Ruby e bibliotecas do React. \n- Atuação em plataforma de controle de vendas com Angular 2+.',
+        logo: '/public/coyo.jfif'
+      },
+      {
+        titulo: 'Desenvolvedor de software Junior',
+        empresa: 'Zukk softwares',
+        periodo: 'abr de 2019 - set de 2019 · 6 meses',
+        descricao: 'Atuação em diversos projetos Front end, back end e mobile. \n- Atuação no aplicativo Horse360 com Ionic, um aplicativo com chat e integrações a API`s em Node, além de diversas funcionalidades nativas do Framework Ionic. \n- Desenvolvimento de aplicações com Geolocalização, as aplicações eram feitas em Angular/AngularJS e tinham bibliotecas de geolocalização para mapeamento de ruas, cidades, fazendas etc. \n- Desenvolvimento de API`s com NodeJs e integrações com front de aplicações.',
+        logo: '/public/zukk.jfif'
+      },
     ]
   });
 } 

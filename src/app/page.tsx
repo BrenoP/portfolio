@@ -402,22 +402,21 @@ export default function Home() {
         )}
       </section>
 
-      {/* Sobre mim + Soft Skills juntos */}
+      {/* Seção Saiba mais sobre mim */}
       <section className="w-full border-b border-gray-200 py-20" style={{ background: COLOR_SECTION_BLUE }}>
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 items-center px-2">
-          <div className="flex-1 flex flex-col items-center md:items-start">
-            <p className="whitespace-pre-line text-base text-lg text-gray-700 mb-6 text-center md:text-left" style={{ color: 'white' }}>
-              {lang === 'pt'
-                ? sobre
-                : about}
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12 px-2">
+          <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
+            <h2 className="text-4xl font-extrabold mb-2" style={{ color: COLOR_BG }}>
+              Saiba mais sobre mim
+            </h2>
+            <p className="text-lg mb-4" style={{ color: COLOR_BG }}>
+              Formações acadêmicas e experiências profissionais detalhadas
             </p>
-            <ul className="flex flex-wrap gap-3 justify-center md:justify-start">
-              {softSkills.map((skill) => (
-                <li key={skill} className="bg-blue-50 text-blue-900 px-4 py-2 rounded-full text-sm font-medium border border-blue-100">
-                  {skill}
-                </li>
-              ))}
-            </ul>
+          </div>
+          <div className="flex-1 flex justify-center md:justify-end w-full">
+            <a href="/sobre" className="px-8 py-3 bg-[#ffc300] text-[#001d3d] rounded-full text-lg font-semibold shadow hover:bg-[#ffe066] transition cursor-pointer flex items-center gap-2 w-full md:w-auto justify-center md:justify-end">
+              Ir para página sobre mim
+            </a>
           </div>
         </div>
       </section>
