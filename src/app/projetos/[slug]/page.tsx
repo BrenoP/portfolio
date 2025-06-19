@@ -109,7 +109,7 @@ export default function ProjetoPage() {
           {project.tecnologias.map((tec: string) => (
             <button
               key={tec}
-              className="px-4 py-2 rounded-full text-sm font-mono shadow-sm focus:outline-none transition"
+              className="px-4 py-2 rounded-full text-sm font-mono shadow-sm focus:outline-none transition cursor-pointer"
               style={{ background: COLOR_SKILL_TAG_BG, color: COLOR_SKILL_TAG_TEXT, border: `1px solid ${COLOR_SKILL_TAG_BORDER}` }}
               onClick={() => openSkillModal(tec)}
             >

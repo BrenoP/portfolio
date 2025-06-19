@@ -486,19 +486,20 @@ export default function Home() {
               <button
                 key={proj.titulo}
                 onClick={() => router.push(`/projetos/${encodeURIComponent(proj.titulo.toLowerCase().replace(/\s+/g, '-'))}`)}
-                className="block w-full text-left bg-white border border-gray-200 rounded-xl p-0 shadow-sm transition-all group focus:outline-none cursor-pointer hover:bg-[#F9FAFB]"
+                className="block w-full text-left bg-white border border-gray-200 rounded-xl p-0 shadow-sm transition-all group focus:outline-none cursor-pointer hover:bg-[#F9FAFB] h-[480px] flex flex-col"
+                style={{ minHeight: 480 }}
               >
                 {proj.imagem && (
-                  <div className="w-full h-40 rounded-t-xl overflow-hidden flex items-center justify-center bg-gray-100">
-                    <img src={proj.imagem} alt={proj.titulo} className="object-cover w-full h-full" />
+                  <div className="w-full h-56 rounded-t-xl overflow-hidden flex items-center justify-center bg-gray-100" style={{ height: '150px' }}>
+                    <img src={proj.imagem} alt={proj.titulo} className="object-cover w-full h-full" style={{ height: '224px', width: '100%' }} />
                   </div>
                 )}
-                <div className="flex flex-col gap-1 mb-2 px-8 pt-6">
+                <div className="flex flex-col gap-1 mb-2 px-8 pt-6 flex-1">
                   <span className="text-xs text-gray-400">{proj.data}</span>
                   <h4 className="text-lg font-semibold mb-1 group-hover:no-underline" style={{ color: COLOR_HEADER }}>{proj.titulo}</h4>
+                  <p className="text-gray-700 mb-2">{proj.descricao.length > 100 ? proj.descricao.slice(0, 100) + '...' : proj.descricao}</p>
                 </div>
-                <p className="text-gray-700 mb-2 px-8">{proj.descricao.length > 100 ? proj.descricao.slice(0, 100) + '...' : proj.descricao}</p>
-                <div className="flex flex-wrap gap-2 mt-2 px-8 pb-6">
+                <div className="flex flex-wrap gap-2 mt-auto px-8 pb-6">
                   {proj.tecnologias.map((tec) => (
                     <span key={tec} style={{ background: COLOR_SKILL_TAG_BG }} className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
                   ))}
