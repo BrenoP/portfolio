@@ -112,7 +112,9 @@ export default function Home() {
 
   const sobre = `
     Oi, sou Breno. Sou desenvolvedor front-end, tenho experiência na atuação de grandes projetos, com maior foco no desenvolvimento voltado para WEB. Sou formado em analise e desenvolvimento de sistemas na ETEP. Comecei atuando como desenvolvedor em 2018.
+
     Dentre as tecnologias que utilizo para desenvolver tenho mais domínio em: ReactJS e o NextJS, Typescript para tipagem e maior controle do código, Styled componentes para estilização, React testing library para testes, Context API no gerenciamento de estados e NodeJS para criação de api's. Já trabalhei com diversas outras tecnologias e sempre busco me adaptar no desenvolvimento.
+
     Sempre busco aprender coisas novas e atualizar a forma como desenvolvo, para estar sempre por dentro das melhores práticas e métodos de desenvolvimento. Também busco trabalhar junto da equipe para superar os desafios.
   `;
   const about = `
@@ -309,7 +311,11 @@ export default function Home() {
           <div className="w-full max-w-5xl flex flex-col md:flex-row items-center md:items-start gap-12 animate-fade-in">
             <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
               <h1 className="text-5xl sm:text-7xl font-extrabold mb-4" style={{ color: '#332E2E', lineHeight: 1.1 }}>{info.profissao}</h1>
-              <p className="text-xl text-gray-700 mb-4 max-w-2xl">{info.descricao}</p>
+              <div className="text-xl text-gray-700 mb-4 max-w-2xl flex flex-col gap-2">
+                {info.descricao.split('.').map((frase, i) =>
+                  frase.trim() ? <p key={i}>{frase.trim()}.</p> : null
+                )}
+              </div>
             </div>
             <div className="flex-1 flex justify-center md:justify-end items-center">
               <div className="w-56 h-56 md:w-64 md:h-64 overflow-hidden bg-gray-200 flex items-center justify-center shadow-lg" style={{ borderRadius: '50%' }}>
@@ -333,7 +339,7 @@ export default function Home() {
       <section className="w-full border-b border-gray-200 py-20" style={{ background: "#1C398E" }}>
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 items-center">
           <div className="flex-1 flex flex-col items-center md:items-start">
-            <p className="text-lg text-gray-700 mb-6 text-center md:text-left" style={{ color: 'white', margin: '5rem 0 5rem 0' }}>
+            <p className="whitespace-pre-line text-base text-lg text-gray-700 mb-6 text-center md:text-left" style={{ color: 'white', margin: '5rem 0 5rem 0' }}>
               {lang === 'pt'
                 ? sobre
                 : about}
@@ -363,19 +369,22 @@ export default function Home() {
         </div>
       </section> */}
 
-      {/* Habilidades Section - tópicos estilizado */}
+      {/* Habilidades Section - tópicos estilizado sem cards */}
       <section ref={habilidadesRef} className="w-full border-b border-gray-200 py-20" style={{ background: "#FFF7F3" }}>
         <div className="max-w-5xl mx-auto">
-          <h3 className="text-3xl font-bold mb-8 text-left">{lang === 'pt' ? 'Habilidades' : 'Skills'}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <h3 className="text-3xl font-bold mb-12 text-left">{lang === 'pt' ? 'Habilidades' : 'Skills'}</h3>
+          <div className="flex flex-col gap-12">
             {habilidadesTopicos.length > 0 ? habilidadesTopicos.map((topico, idx) => (
-              <div key={topico.titulo} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border border-gray-100 hover:shadow-2xl transition">
-                <h4 className="text-lg font-bold mb-2 text-[#332E2E] tracking-wide uppercase">{topico.titulo}</h4>
-                <div className="flex flex-wrap gap-3">
+              <div key={topico.titulo} className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="block w-2 h-8 rounded bg-yellow-300" />
+                  <h4 className="text-lg font-bold text-[#332E2E] tracking-wide uppercase">{topico.titulo}</h4>
+                </div>
+                <div className="flex flex-wrap gap-3 mt-2">
                   {topico.skills.map((skill) => (
                     <button
                       key={skill}
-                      className="bg-gradient-to-br from-yellow-100 to-yellow-200 text-yellow-900 px-4 py-2 rounded-full text-sm font-mono shadow-sm border border-yellow-200 focus:outline-none hover:bg-yellow-300 transition cursor-pointer"
+                      className="bg-yellow-100 text-yellow-900 px-5 py-2 rounded-full text-base font-mono shadow hover:shadow-md border border-yellow-200 focus:outline-none hover:bg-yellow-200 transition cursor-pointer"
                       onClick={() => openSkillModal(skill)}
                     >
                       {skill}

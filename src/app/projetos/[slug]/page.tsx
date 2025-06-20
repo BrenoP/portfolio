@@ -11,6 +11,7 @@ interface Projeto {
   descricao: string;
   link: string;
   tecnologias: string[];
+  imagem: string;
 }
 
 interface Projects {
@@ -85,8 +86,8 @@ export default function ProjetoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center py-16 px-4">
-      <div className="w-full max-w-4xl mx-auto">
+    <div className="min-h-screen flex flex-col items-center py-16 px-4" style={{ background: '#FFF7F3' }}>
+      <div className="w-full max-w-6xl mx-auto">
         <button
           className="flex items-center gap-2 text-blue-800 hover:text-blue-600 mb-6 text-lg font-medium"
           onClick={() => router.push("/")}
@@ -107,7 +108,7 @@ export default function ProjetoPage() {
         </div>
         <div className="flex flex-col md:flex-row gap-10 items-center">
           <div className="flex-1">
-            <p className="text-lg text-gray-700 mb-4">{project.descricao}</p>
+            <p className="text-lg whitespace-pre-line text-gray-700 mb-4">{project.descricao}</p>
             <a
               href={project.link}
               target="_blank"
@@ -124,7 +125,7 @@ export default function ProjetoPage() {
             </a>
           </div>
           <div className="flex-1 flex justify-center">
-            <Image src="/globe.svg" alt="Imagem do projeto" width={220} height={220} className="rounded-2xl shadow-lg" />
+            <Image src={project.imagem} alt="Imagem do projeto" width={600} height={360} className="rounded-2xl shadow-lg" style={{ objectFit: 'cover', maxWidth: '100%', maxHeight: '420px' }} />
           </div>
         </div>
       </div>

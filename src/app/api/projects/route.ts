@@ -7,12 +7,8 @@ export async function GET() {
       {
         titulo: 'Jogo adivinhação de cores em Next',
         descricao: `
-          O projeto é um jogo de cores, onde o jogador deve escolher rapidamente
-          a cor que está escrita no card grande, isso antes que o tempo acabe.
-          Fiz o projeto com o intuito de estudar um pouco mais do ambiente NextJs,
-          e nesse projeto quis ver principalmente como o Next trabalha com uma
-          API já integrada com o Front. O jogo é simples, mas deu pra ver
-          muitos conceitos do Next com ele.
+          O projeto é um jogo de cores, onde o jogador deve escolher rapidamente a cor que está escrita no card grande, isso antes que o tempo acabe.
+          Fiz o projeto com o intuito de estudar um pouco mais do ambiente NextJs, e nesse projeto quis ver principalmente como o Next trabalha com uma API já integrada com o Front. O jogo é simples, mas deu pra ver muitos conceitos do Next com ele.
         `,
         link: 'https://github.com/BrenoP/Color-game',
         tecnologias: [
@@ -29,16 +25,9 @@ export async function GET() {
       {
         titulo: 'Termo',
         descricao: `
-          Esse projeto pessoal é a recriação do conhecido jogo termo (caso queira
-          checar o original o link é esse: https://term.ooo/). 
-          Neste jogo, o objetivo é acertar uma palavra composta por 5 letras, onde
-          a cada tentativa o jogo automáticamente mostra as letras que estão 
-          corretas e na posição certa (indicado pela cor verde), as letras que 
-          estão corretas mas na posição errada (indicada pela cor amarela) e as 
-          letras que não estão corretas (indicadas pela cor neutra cinza).
-          O intuito do projeto era estudar a nova versão do Next de uma forma 
-          prática, aplicando os conceitos que aprendi em um projeto que fosse o 
-          mais interativo possível, no caso, um jogo. 
+          Esse projeto pessoal é a recriação do conhecido jogo termo (caso queira checar o original o link é esse: https://term.ooo/). 
+          Neste jogo, o objetivo é acertar uma palavra composta por 5 letras, onde a cada tentativa o jogo automáticamente mostra as letras que estão  corretas e na posição certa (indicado pela cor verde), as letras que  estão corretas mas na posição errada (indicada pela cor amarela) e as letras que não estão corretas (indicadas pela cor neutra cinza).
+          O intuito do projeto era estudar a nova versão do Next de uma forma prática, aplicando os conceitos que aprendi em um projeto que fosse o mais interativo possível, no caso, um jogo. 
         `,
         link: 'https://github.com/BrenoP/Termo-recriation',
         tecnologias: [
@@ -58,13 +47,8 @@ export async function GET() {
       {
         titulo: 'Ultragaz revendas',
         descricao: `
-          Uma aplicação web focada no mobile para conexão dos revendedores com 
-          a empresa Ultragaz, nele existiam diversas funcionalidades para ajudar
-          o revendedor além de um sistema de pontos integrado na aplicação, 
-          além disso existiam integrações com Api's em micro serviço, 
-          autenticação de usuários, cookies de segurança, interações e edição
-          de pdf entre outros. A Aplicação era hospedada na cloud da AWS e
-          eram utilizadas pipelines automatizadas.
+          Uma aplicação web focada no mobile para conexão dos revendedores com a empresa Ultragaz, nele existiam diversas funcionalidades para ajudar o revendedor além de um sistema de pontos integrado na aplicação, além disso existiam integrações com Api's em micro serviço, autenticação de usuários, cookies de segurança, interações e edição de pdf entre outros. 
+          A Aplicação era hospedada na cloud da AWS e eram utilizadas pipelines automatizadas.
         `,
         link: 'https://www.ultragaz.com.br/',
         tecnologias: [
@@ -88,12 +72,8 @@ export async function GET() {
       {
         titulo: 'C&A',
         descricao: `
-          Atuação no time da parte de produtos e de marketplace no site principal
-          da C&A, atuando como desenvolvedor VTEX (plataforma para Ecommerce) e
-          utilizando a própria plataforma para controle das páginas. 
-          Era utilizado o padrão de micro front-ends para a organização das 
-          diferentes partes do site e o mesmo era hospedado na Cloud da própria
-          VTEX.
+          Atuação no time da parte de produtos e de marketplace no site principal da C&A, atuando como desenvolvedor VTEX (plataforma para Ecommerce) e utilizando a própria plataforma para controle das páginas. 
+          Era utilizado o padrão de micro front-ends para a organização das diferentes partes do site e o mesmo era hospedado na Cloud da própria VTEX.
         `,
         link: 'https://www.cea.com.br/',
         tecnologias: [
@@ -115,13 +95,8 @@ export async function GET() {
       {
         titulo: 'Porto viagens PWA',
         descricao: `
-          Desenvolvedor no Produto de seguro viagem da Porto, uma aplicação web
-          para a contratação do seguro viagem, era desenvolvido em React com 
-          uso da plataforma AEM. Na aplicação fiquei encarregado da parte de 
-          cloud utilizando o Adobe Cloud, mas também desenvolvi componentes, 
-          funções com o Formik (biblioteca para formulários complexos) e 
-          também diversos tipos de teste automatizados como teste de integração,
-          teste de renderização e teste de snapshot.
+          Desenvolvedor no Produto de seguro viagem da Porto, uma aplicação web para a contratação do seguro viagem, era desenvolvido em React com uso da plataforma AEM. 
+          Na aplicação fiquei encarregado da parte de cloud utilizando o Adobe Cloud, mas também desenvolvi componentes, funções com o Formik (biblioteca para formulários complexos) e também diversos tipos de teste automatizados como teste de integração, teste de renderização e teste de snapshot.
         `,
         link: 'https://www.portoseguro.com.br/seguro-viagem',
         tecnologias: [
@@ -146,8 +121,7 @@ export async function GET() {
       {
         titulo: 'Meetime FLOW',
         descricao: `
-          Meetime flow é uma plataforma de sales engagement que ajuda os SDR's
-          em sua rotina de prospecção.
+          Meetime flow é uma plataforma de sales engagement que ajuda os SDR's em sua rotina de prospecção.
 
           - Criação de novas páginas e componentes para integração do 
           Meetime FLOW, como modal de atividades, serviços de feature flag
@@ -176,8 +150,7 @@ export async function GET() {
       {
         titulo: 'IA manager Vivo Aura',
         descricao: `
-          Vivo Aura a inteligência artificial da vivo, dentro da plataforma 
-          principal da IA. 
+          Vivo Aura a inteligência artificial da vivo, dentro da plataforma principal da IA. 
 
           - Atuação com React e suas principais tecnologias 
           (Typescript, Context, Zustand, Hooks entre outras)
