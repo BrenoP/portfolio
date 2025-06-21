@@ -5,6 +5,15 @@ import Image from "next/image";
 import { FaGithub, FaLinkedin, FaArrowLeft } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import {
+  COLOR_BG,
+  COLOR_HEADER,
+  COLOR_SKILL_TAG_BG,
+  COLOR_SKILL_TAG_BORDER,
+  COLOR_SKILL_TAG_TEXT,
+  COLOR_SKILL_BAR,
+  COLOR_SECTION_BLUE,
+} from "../../colors";
 
 interface Projeto {
   titulo: string;
@@ -24,7 +33,6 @@ export default function ProjetoPage() {
   // Next.js recomenda: const { slug } = React.use(params)
   // Mas como useParams já retorna o objeto, usamos assim:
   // Se for Promise, use React.use(params) no futuro
-  // @ts-ignore
   const slug = params.slug as string;
 
   const [projects, setProjects] = useState<Projects | null>(null);
@@ -84,15 +92,6 @@ export default function ProjetoPage() {
       </div>
     );
   }
-
-  // Cores principais (iguais ao page.tsx)
-  const COLOR_BG = '#FFF7F3';
-  const COLOR_HEADER = '#001d3d';
-  const COLOR_SKILL_TAG_BG = 'rgba(255, 214, 10, .5)';
-  const COLOR_SKILL_TAG_BORDER = 'rgba(255, 214, 10, .5)';
-  const COLOR_SKILL_TAG_TEXT = '#001d3d';
-  const COLOR_SKILL_BAR = '#ffc300';
-  const COLOR_SECTION_BLUE = '#003566';
 
   return (
     <div className="min-h-screen flex flex-col items-center py-16 px-4" style={{ background: COLOR_BG }}>

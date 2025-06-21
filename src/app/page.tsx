@@ -3,20 +3,31 @@
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { FaLinkedin, FaGithub, FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaEnvelope, FaPhone } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import Select from "react-select";
+import Select, { StylesConfig, GroupBase } from "react-select";
+import {
+  COLOR_BG,
+  COLOR_HEADER,
+  COLOR_SKILL_TAG_BG,
+  COLOR_SKILL_TAG_BORDER,
+  COLOR_SKILL_TAG_TEXT,
+  COLOR_SKILL_BAR,
+  COLOR_SECTION_BLUE,
+} from "./colors";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState as useReactState } from "react";
 
+// Tipos para o select de linguagem
+type LangOption = { value: "pt" | "en"; label: string };
 // Componente para evitar hydration error do react-select
-function ClientOnlySelect(props: any) {
+function ClientOnlySelect(props: React.ComponentProps<typeof Select<LangOption, false, GroupBase<LangOption>>>) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
-  return <Select {...props} />;
+  return <Select<LangOption, false, GroupBase<LangOption>> {...props} />;
 }
 
 interface PersonalInfo {
@@ -52,27 +63,6 @@ export default function Home() {
   const [projects, setProjects] = useState<Projects | null>(null);
   const [lang, setLang] = useState<'pt' | 'en'>('pt');
   const [year, setYear] = useState<number | null>(null);
-
-  // Adicione as soft skills e habilidades para exibir nas novas seções
-  const softSkills = [
-    lang === 'pt'
-      ? [
-          'Comunicação',
-          'Trabalho em equipe',
-          'Resolução de problemas',
-          'Pensamento crítico',
-          'Adaptabilidade',
-          'Empatia',
-        ]
-      : [
-          'Communication',
-          'Teamwork',
-          'Problem Solving',
-          'Critical Thinking',
-          'Adaptability',
-          'Empathy',
-        ],
-  ][0];
 
   const hardSkills = [
     'React',
@@ -122,19 +112,6 @@ export default function Home() {
     'Jenkins'
   ];
 
-  const sobre = `
-    Oi, sou Breno. Sou desenvolvedor front-end, tenho experiência na atuação de grandes projetos, com maior foco no desenvolvimento voltado para WEB. Sou formado em analise e desenvolvimento de sistemas na ETEP. Comecei atuando como desenvolvedor em 2018.
-
-    Dentre as tecnologias que utilizo para desenvolver tenho mais domínio em: ReactJS e o NextJS, Typescript para tipagem e maior controle do código, Styled componentes para estilização, React testing library para testes, Context API no gerenciamento de estados e NodeJS para criação de api's. Já trabalhei com diversas outras tecnologias e sempre busco me adaptar no desenvolvimento.
-
-    Sempre busco aprender coisas novas e atualizar a forma como desenvolvo, para estar sempre por dentro das melhores práticas e métodos de desenvolvimento. Também busco trabalhar junto da equipe para superar os desafios.
-  `;
-  const about = `
-    Hi, I'm Breno. I'm a front-end developer, I have experience in bigger projects focusing on web development. I graduated in analysis and systems development at ETEP. I started working with development in 2018.
-    Between the technologies I use for development, I have excellent skills in ReactJS and NextJS, Typescript for better code control, Styled components for styling, React testing library for code tests, Context API in state management, and NodeJS for API creation. I have already worked with other technologies and I'm always adapting my way of development.
-    I always try to learn new things and update my developer skills, trying to be on top of the best patterns and development methods. I also try to work along with the team to overcome challenges.
-  `;
-
   // Estados para modais
   const [selectedProject, setSelectedProject] = useState<Projeto | null>(null);
   const [skillModal, setSkillModal] = useState<string | null>(null);
@@ -145,7 +122,6 @@ export default function Home() {
 
   // Refs para scroll suave
   const heroRef = useRef<HTMLDivElement>(null!);
-  const sobreRef = useRef<HTMLDivElement>(null!);
   const habilidadesRef = useRef<HTMLDivElement>(null!);
   const projetosRef = useRef<HTMLDivElement>(null!);
 
@@ -175,7 +151,6 @@ export default function Home() {
 
   // Novo: buscar habilidades e sobre da API
   const [habilidadesTopicos, setHabilidadesTopicos] = useState<{ titulo: string; skills: string[] }[]>([]);
-  const [sobreParagrafos, setSobreParagrafos] = useState<string[]>([]);
 
   useEffect(() => {
     fetch("/api/personal-info")
@@ -186,7 +161,6 @@ export default function Home() {
       .then((data) => {
         setProjects(data);
         if (data.habilidades) setHabilidadesTopicos(data.habilidades);
-        if (data.sobre) setSobreParagrafos(data.sobre);
       });
     setYear(new Date().getFullYear());
   }, []);
@@ -240,14 +214,14 @@ export default function Home() {
   ];
 
   // Opções para o select de linguagem
-  const langOptions = [
+  const langOptions: LangOption[] = [
     { value: "pt", label: "PT" },
     { value: "en", label: "EN" },
   ];
 
   // Estilo customizado para o react-select
-  const customSelectStyles = {
-    control: (provided: any) => ({
+  const customSelectStyles: StylesConfig<LangOption, false, GroupBase<LangOption>> = {
+    control: (provided) => ({
       ...provided,
       borderRadius: 9999,
       minWidth: 80,
@@ -256,39 +230,30 @@ export default function Home() {
       cursor: "pointer",
       padding: "2px 4px",
     }),
-    option: (provided: any, state: any) => ({
+    option: (provided, state) => ({
       ...provided,
       cursor: "pointer",
       backgroundColor: state.isSelected ? "#1C398E" : state.isFocused ? "#F9FAFB" : "#fff",
       color: state.isSelected ? "#fff" : "#1C398E",
       borderRadius: 8,
     }),
-    menu: (provided: any) => ({
+    menu: (provided) => ({
       ...provided,
       borderRadius: 12,
       overflow: "hidden",
     }),
-    singleValue: (provided: any) => ({
+    singleValue: (provided) => ({
       ...provided,
       color: "#1C398E",
       fontWeight: 700,
     }),
-    dropdownIndicator: (provided: any) => ({
+    dropdownIndicator: (provided) => ({
       ...provided,
       color: "#1C398E",
       padding: 4,
     }),
     indicatorSeparator: () => ({ display: "none" }),
   };
-
-  // Cores principais
-  const COLOR_BG = '#FFF7F3';
-  const COLOR_HEADER = '#001d3d';
-  const COLOR_SKILL_TAG_BG = 'rgba(255, 214, 10, .5)'; // amarelo claro
-  const COLOR_SKILL_TAG_BORDER = 'rgba(255, 214, 10, .5)'; // amarelo mais escuro
-  const COLOR_SKILL_TAG_TEXT = '#001d3d';
-  const COLOR_SKILL_BAR = '#ffc300'; // barra lateral
-  const COLOR_SECTION_BLUE = '#003566';
 
   return (
     <div className="min-h-screen flex flex-col font-sans" style={{ background: COLOR_BG }}>
@@ -314,7 +279,7 @@ export default function Home() {
                 <ClientOnlySelect
                   options={langOptions}
                   value={langOptions.find((o) => o.value === lang)}
-                  onChange={(opt: { value: string; label: string } | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
+                  onChange={(opt) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
                   styles={customSelectStyles}
                   isSearchable={false}
                   aria-label="Selecionar idioma"
@@ -371,7 +336,7 @@ export default function Home() {
                     <ClientOnlySelect
                       options={langOptions}
                       value={langOptions.find((o) => o.value === lang)}
-                      onChange={(opt: { value: string; label: string } | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
+                      onChange={(opt) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
                       styles={customSelectStyles}
                       isSearchable={false}
                       aria-label="Selecionar idioma"
@@ -502,7 +467,7 @@ export default function Home() {
               >
                 {proj.imagem && (
                   <div className="w-full h-56 rounded-t-xl overflow-hidden flex items-center justify-center bg-gray-100" style={{ height: '150px' }}>
-                    <img src={proj.imagem} alt={proj.titulo} className="object-cover w-full h-full" style={{ height: '224px', width: '100%' }} />
+                    <Image src={proj.imagem} alt={proj.titulo} className="object-cover w-full h-full" style={{ height: '224px', width: '100%' }} />
                   </div>
                 )}
                 <div className="flex flex-col gap-1 mb-2 px-8 pt-6 flex-1">

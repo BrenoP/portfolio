@@ -4,19 +4,36 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
+import {
+  COLOR_BG,
+  COLOR_HEADER,
+  COLOR_SKILL_TAG_BG,
+  COLOR_SKILL_TAG_BORDER,
+  COLOR_SKILL_TAG_TEXT,
+  COLOR_SKILL_BAR,
+  COLOR_SECTION_BLUE,
+} from "../colors";
 
-const COLOR_BG = '#FFF7F3';
-const COLOR_HEADER = '#001d3d';
-const COLOR_SKILL_TAG_BG = 'rgba(255, 214, 10, .5)';
-const COLOR_SKILL_TAG_BORDER = 'rgba(255, 214, 10, .5)';
-const COLOR_SKILL_TAG_TEXT = '#001d3d';
-const COLOR_SKILL_BAR = '#ffc300';
-const COLOR_SECTION_BLUE = '#003566';
+interface Formacao {
+  titulo: string;
+  descricao: string;
+  linkCertificado: string;
+}
+
+interface Experiencia {
+  titulo: string;
+  empresa: string;
+  logo?: string;
+  periodo: string;
+  local?: string;
+  descricao: string;
+  competencias?: string;
+}
 
 export default function SobrePage() {
   const [sobre, setSobre] = useState<string[]>([]);
-  const [formacoes, setFormacoes] = useState<any[]>([]);
-  const [experiencias, setExperiencias] = useState<any[]>([]);
+  const [formacoes, setFormacoes] = useState<Formacao[]>([]);
+  const [experiencias, setExperiencias] = useState<Experiencia[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -80,7 +97,7 @@ export default function SobrePage() {
           <div className="relative flex flex-col gap-16">
             {/* Linha vertical centralizada (timeline) */}
             <div className="absolute left-1/2 top-0 h-full w-1 bg-gray-200 z-0" style={{ transform: 'translateX(-50%)' }} />
-            {experiencias.map((exp, idx) => (
+            {experiencias.map((exp) => (
               <div key={exp.titulo + exp.empresa} className="relative flex flex-row gap-6 bg-white rounded-2xl shadow-lg p-8 border border-gray-100 z-10 items-center max-w-2xl mx-auto">
                 {exp.logo && (
                   <div className="hidden md:flex flex-shrink-0 items-center justify-center w-20 h-20 bg-gray-100 rounded-xl overflow-hidden mr-4">
