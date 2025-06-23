@@ -156,13 +156,21 @@ export default function Home() {
     }
   };
 
+  // Novo: buscar habilidades e sobre da API
+  const [habilidadesTopicos, setHabilidadesTopicos] = useState<{ titulo: string; skills: string[] }[]>([]);
+  const [sobreParagrafos, setSobreParagrafos] = useState<string[]>([]);
+
   useEffect(() => {
     fetch("/api/personal-info")
       .then((res) => res.json())
       .then(setInfo);
     fetch("/api/projects")
       .then((res) => res.json())
-      .then(setProjects);
+      .then((data) => {
+        setProjects(data);
+        if (data.habilidades) setHabilidadesTopicos(data.habilidades);
+        if (data.sobre) setSobreParagrafos(data.sobre);
+      });
   }, []);
 
   // Função para scroll suave
@@ -301,15 +309,15 @@ export default function Home() {
           <div className="w-full max-w-5xl flex flex-col md:flex-row items-center md:items-start gap-12 animate-fade-in">
             <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
               <h1 className="text-5xl sm:text-7xl font-extrabold mb-4" style={{ color: '#332E2E', lineHeight: 1.1 }}>{info.profissao}</h1>
-              <p className="text-xl text-gray-700 mb-4 max-w-2xl">{t[lang].subtitle}</p>
+              <p className="text-xl text-gray-700 mb-4 max-w-2xl">{info.descricao}</p>
             </div>
             <div className="flex-1 flex justify-center md:justify-end items-center">
-              <div className="w-56 h-72 md:w-64 md:h-80 overflow-hidden bg-gray-200 flex items-center justify-center shadow-lg" style={{ borderRadius: '50% / 40%' }}>
+              <div className="w-56 h-56 md:w-64 md:h-64 overflow-hidden bg-gray-200 flex items-center justify-center shadow-lg" style={{ borderRadius: '50%' }}>
                 <Image
                   src={info.foto}
                   alt={info.nome}
                   width={256}
-                  height={320}
+                  height={256}
                   className="object-cover w-full h-full"
                 />
               </div>
@@ -323,7 +331,7 @@ export default function Home() {
 
       {/* Sobre mim + Soft Skills juntos */}
       <section className="w-full border-b border-gray-200 py-20" style={{ background: "#1C398E" }}>
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 items-center">
           <div className="flex-1 flex flex-col items-center md:items-start">
             <p className="text-lg text-gray-700 mb-6 text-center md:text-left" style={{ color: 'white', margin: '5rem 0 5rem 0' }}>
               {lang === 'pt'
@@ -355,26 +363,45 @@ export default function Home() {
         </div>
       </section> */}
 
-      {/* Habilidades Section */}
+      {/* Habilidades Section - tópicos estilizado */}
       <section ref={habilidadesRef} className="w-full border-b border-gray-200 py-20" style={{ background: "#FFF7F3" }}>
         <div className="max-w-5xl mx-auto">
-          <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: '#332E2E' }}>{lang === 'pt' ? 'Habilidades' : 'Skills'}</h3>
-          <div className="flex flex-wrap gap-4">
-            {hardSkills.map((skill) => (
-              <button
-                key={skill}
-                className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-mono shadow-sm border border-yellow-200 focus:outline-none hover:bg-yellow-200 transition cursor-pointer"
-                onClick={() => openSkillModal(skill)}
-              >
-                {skill}
-              </button>
-            ))}
+          <h3 className="text-3xl font-bold mb-8 text-left">{lang === 'pt' ? 'Habilidades' : 'Skills'}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {habilidadesTopicos.length > 0 ? habilidadesTopicos.map((topico, idx) => (
+              <div key={topico.titulo} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border border-gray-100 hover:shadow-2xl transition">
+                <h4 className="text-lg font-bold mb-2 text-[#332E2E] tracking-wide uppercase">{topico.titulo}</h4>
+                <div className="flex flex-wrap gap-3">
+                  {topico.skills.map((skill) => (
+                    <button
+                      key={skill}
+                      className="bg-gradient-to-br from-yellow-100 to-yellow-200 text-yellow-900 px-4 py-2 rounded-full text-sm font-mono shadow-sm border border-yellow-200 focus:outline-none hover:bg-yellow-300 transition cursor-pointer"
+                      onClick={() => openSkillModal(skill)}
+                    >
+                      {skill}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )) : (
+              <div className="flex flex-wrap gap-4">
+                {hardSkills.map((skill) => (
+                  <button
+                    key={skill}
+                    className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-mono shadow-sm border border-yellow-200 focus:outline-none hover:bg-yellow-200 transition cursor-pointer"
+                    onClick={() => openSkillModal(skill)}
+                  >
+                    {skill}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* Projetos Section - todos juntos */}
-      <section ref={projetosRef} className="w-full border-b border-gray-200 py-20" style={{ background: "#FFF7F3" }}>
+      <section ref={projetosRef} className="w-full py-20" style={{ background: "#FFF7F3" }}>
         <div className="max-w-5xl mx-auto">
           <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: '#332E2E' }}>{lang === 'pt' ? 'Projetos' : 'Projects'}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
@@ -407,30 +434,35 @@ export default function Home() {
 
       {/* Quem já contou com meu trabalho - carrossel de imagens */}
       <section className="w-full py-20 overflow-x-hidden" style={{ background: "#FFF7F3" }}>
-        <div className="max-w-5xl mx-auto w-full">
-          <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: '#332E2E' }}>{lang === 'pt' ? 'Quem já contou com meu trabalho' : 'Who has trusted my work'}</h3>
-          <div className="w-full max-w-full">
-            <Slider
-              dots={false}
-              infinite={true}
-              speed={500}
-              slidesToShow={3.5}
-              slidesToScroll={1}
-              responsive={[
-                { breakpoint: 1024, settings: { slidesToShow: 2.5 } },
-                { breakpoint: 768, settings: { slidesToShow: 1.5 } },
-                { breakpoint: 480, settings: { slidesToShow: 1 } },
-              ]}
-              arrows={true}
-              className="carousel-clients half-slide-carousel"
-            >
-              {clientImages.map((img, idx) => (
-                <div key={idx} className="flex items-center justify-center w-full h-32 md:h-36 lg:h-40 px-4">
-                  <Image src={img.replace('/public', '')} alt={`Cliente ${idx + 1}`} width={180} height={80} style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
-                </div>
-              ))}
-            </Slider>
-          </div>
+        <h3 className="text-3xl font-bold mb-8 text-center" style={{ color: '#332E2E' }}>{lang === 'pt' ? 'Quem já contou com meu trabalho' : 'Who has trusted my work'}</h3>
+        <div style={{ maxWidth: 900, width: '60vw', margin: '0 auto' }}>
+          <Slider
+            dots={false}
+            infinite={true}
+            speed={500}
+            slidesToShow={3.5}
+            slidesToScroll={1}
+            responsive={[
+              { breakpoint: 1024, settings: { slidesToShow: 2.5 } },
+              { breakpoint: 768, settings: { slidesToShow: 1.5 } },
+              { breakpoint: 480, settings: { slidesToShow: 1 } },
+            ]}
+            arrows={false}
+            className="carousel-clients half-slide-carousel"
+          >
+            {clientImages.map((img, idx) => (
+              <div key={idx} className="flex items-center justify-center w-full h-56 md:h-60 lg:h-64 px-6">
+                <Image
+                  src={img.replace('/public', '')}
+                  className="w-full h-full object-contain"
+                  alt={`Cliente ${idx + 1}`}
+                  width={220}
+                  height={120}
+                  style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                />
+              </div>
+            ))}
+          </Slider>
         </div>
         <style jsx global>{`
           .half-slide-carousel .slick-list {

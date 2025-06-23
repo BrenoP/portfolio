@@ -5,20 +5,53 @@ export async function GET() {
   return NextResponse.json({
     pessoais: [
       {
-        titulo: 'Projeto Pessoal 1',
-        descricao: 'Descrição do projeto pessoal 1.',
-        link: 'https://github.com/seuusuario/projeto-pessoal-1',
-        tecnologias: ['React', 'Node.js'],
-        data: '2024',
-        imagem: 'https://via.placeholder.com/150',
+        titulo: 'Jogo adivinhação de cores em Next',
+        descricao: `
+          O projeto é um jogo de cores, onde o jogador deve escolher rapidamente
+          a cor que está escrita no card grande, isso antes que o tempo acabe.
+          Fiz o projeto com o intuito de estudar um pouco mais do ambiente NextJs,
+          e nesse projeto quis ver principalmente como o Next trabalha com uma
+          API já integrada com o Front. O jogo é simples, mas deu pra ver
+          muitos conceitos do Next com ele.
+        `,
+        link: 'https://github.com/BrenoP/Color-game',
+        tecnologias: [
+          'React', 
+          'Next.js',
+          'Typescript',
+          'CSS',
+          'Node.js',
+          'Vercel'
+        ],
+        data: '2022',
+        imagem: '/projects/color-game.gif',
       },
       {
-        titulo: 'Projeto Pessoal 2',
-        descricao: 'Descrição do projeto pessoal 2.',
-        link: 'https://github.com/seuusuario/projeto-pessoal-2',
-        tecnologias: ['Next.js', 'Tailwind CSS'],
+        titulo: 'Termo',
+        descricao: `
+          Esse projeto pessoal é a recriação do conhecido jogo termo (caso queira
+          checar o original o link é esse: https://term.ooo/). 
+          Neste jogo, o objetivo é acertar uma palavra composta por 5 letras, onde
+          a cada tentativa o jogo automáticamente mostra as letras que estão 
+          corretas e na posição certa (indicado pela cor verde), as letras que 
+          estão corretas mas na posição errada (indicada pela cor amarela) e as 
+          letras que não estão corretas (indicadas pela cor neutra cinza).
+          O intuito do projeto era estudar a nova versão do Next de uma forma 
+          prática, aplicando os conceitos que aprendi em um projeto que fosse o 
+          mais interativo possível, no caso, um jogo. 
+        `,
+        link: 'https://github.com/BrenoP/Termo-recriation',
+        tecnologias: [
+          'React',
+          'Typescript',
+          'CSS',
+          'Node.js',
+          'Vercel',
+          'Context API',
+          'Webpack', 
+        ],
         data: '2024',
-        imagem: 'https://via.placeholder.com/150',
+        imagem: '/projects/termo.gif',
       },
     ],
     profissionais: [
@@ -50,7 +83,7 @@ export async function GET() {
           "AWS Code Commit", 
         ],
         data: '2021',
-        imagem: 'https://via.placeholder.com/150',
+        imagem: '/projects/ultragaz.jpg',
       },
       {
         titulo: 'C&A',
@@ -77,7 +110,7 @@ export async function GET() {
           "Webpack", 
         ],
         data: '2022',
-        imagem: 'https://via.placeholder.com/150',
+        imagem: '/projects/cea.png',
       },
       {
         titulo: 'Porto viagens PWA',
@@ -108,7 +141,7 @@ export async function GET() {
           "Styled-components"
         ],
         data: '2023',
-        imagem: 'https://via.placeholder.com/150',
+        imagem: '/projects/porto.gif',
       },
       {
         titulo: 'Meetime FLOW',
@@ -138,7 +171,7 @@ export async function GET() {
           "Jasmine Framework"
         ],
         data: '2024',
-        imagem: 'https://via.placeholder.com/150',
+        imagem: '/projects/Meetime.gif',
       },
       {
         titulo: 'IA manager Vivo Aura',
@@ -167,8 +200,24 @@ export async function GET() {
           "Zod"
         ],
         data: '2025',
-        imagem: 'https://via.placeholder.com/150',
+        imagem: '/projects/vivo.jpg',
       },
     ],
+    habilidades: [
+      { titulo: 'Front-end', skills: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'Angular', 'Angular JS', 'Micro front-end', 'Atomic design', 'Styled-components', 'Tailwind', 'SCSS', 'CSS', 'JQuery'] },
+      { titulo: 'Back-end', skills: ['Node.js', 'Zod'] },
+      { titulo: 'State Management', skills: ['Zustand', 'Context API', 'Redux', 'Redux saga'] },
+      { titulo: 'Testing', skills: ['React Testing Library', 'Jasmine Framework'] },
+      { titulo: 'DevOps', skills: ['Docker', 'Azure devops', 'Circle CI', 'Github actions', 'Gitlab', 'AWS Code Commit', 'Jenkins'] },
+      { titulo: 'Ferramentas', skills: ['Webpack', 'ESLint', 'Git'] },
+      { titulo: 'Metodologias', skills: ['Scrum', 'Kanban'] },
+      { titulo: 'Adobe', skills: ['Adobe Experience Manager (AEM)', 'Adobe Experience Cloud (AEC)'] },
+    ],
+    sobre: [
+      'Oi, sou Breno. Sou desenvolvedor front-end, tenho experiência na atuação de grandes projetos, com maior foco no desenvolvimento voltado para WEB.',
+      'Sou formado em analise e desenvolvimento de sistemas na ETEP. Comecei atuando como desenvolvedor em 2018.',
+      'Dentre as tecnologias que utilizo para desenvolver tenho mais domínio em: ReactJS e o NextJS, Typescript para tipagem e maior controle do código, Styled componentes para estilização, React testing library para testes, Context API no gerenciamento de estados e NodeJS para criação de api\'s. Já trabalhei com diversas outras tecnologias e sempre busco me adaptar no desenvolvimento.',
+      'Sempre busco aprender coisas novas e atualizar a forma como desenvolvo, para estar sempre por dentro das melhores práticas e métodos de desenvolvimento. Também busco trabalhar junto da equipe para superar os desafios.'
+    ]
   });
 } 
