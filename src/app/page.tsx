@@ -5,8 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FaLinkedin, FaGithub, FaEnvelope, FaPhone } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { StylesConfig, GroupBase } from "react-select";
-import ClientOnlySelect, { LangOption } from "./components/ClientOnlySelect";
+import { LangOption } from "./components/ClientOnlySelect";
 import Title from "./components/Title";
 import Button from "./components/Button";
 import {
@@ -22,6 +21,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState as useReactState } from "react";
+import t from "./components/i18n";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 interface PersonalInfo {
   nome: string;
@@ -57,53 +59,7 @@ export default function Home() {
   const [lang, setLang] = useState<'pt' | 'en'>('pt');
   const [year, setYear] = useState<number | null>(null);
 
-  const hardSkills = [
-    'React',
-    'Next.js',
-    'React hooks',
-    'React query',
-    'Zod',
-    'Webpack',
-    'React Testing Library',
-
-    'Tailwind',
-    'Styled-components',
-
-    'Zustand',
-    'Context API',
-    'Redux',
-    'Redux saga',
-
-    'Angular',
-    'Angular JS',
-
-    'Micro front-end',
-    'Atomic design',
-
-    'Adobe Experience Manager (AEM)',
-    'Adobe Experience Cloud (AEC)',
-    
-    'TypeScript',
-    'JavaScript',
-    'CSS',
-    'SCSS',
-    'JQuery',
-
-    'Scrum',
-    'Kanban',
-
-    'Node.js',
-    'ESLint',
-    'Docker',
-
-    'Git',
-    'Azure devops',
-    'Circle CI',
-    'Github actions',
-    'Gitlab',
-    'AWS Code Commit',
-    'Jenkins'
-  ];
+  const [hardSkills, setHardSkills] = useState<string[]>([]);
 
   // Estados para modais
   const [selectedProject, setSelectedProject] = useState<Projeto | null>(null);
@@ -120,28 +76,6 @@ export default function Home() {
 
   const router = useRouter();
 
-  // Textos traduzidos
-  const t = {
-    pt: {
-      profession: info?.profissao || '',
-      subtitle: info?.descricao || '',
-      personalProjects: 'Projetos Pessoais',
-      professionalProjects: 'Projetos Profissionais',
-      navProjects: 'Projetos',
-      navContact: 'Contato',
-      loading: 'Carregando informações...'
-    },
-    en: {
-      profession: info?.profissao || '',
-      subtitle: info?.descricao || '',
-      personalProjects: 'Personal Projects',
-      professionalProjects: 'Professional Projects',
-      navProjects: 'Projects',
-      navContact: 'Contact',
-      loading: 'Loading information...'
-    }
-  };
-
   // Novo: buscar habilidades e sobre da API
   const [habilidadesTopicos, setHabilidadesTopicos] = useState<{ titulo: string; skills: string[] }[]>([]);
 
@@ -154,6 +88,11 @@ export default function Home() {
       .then((data) => {
         setProjects(data);
         if (data.habilidades) setHabilidadesTopicos(data.habilidades);
+        // Unificar tecnologias dos projetos pessoais e profissionais, removendo duplicatas
+        const allProjects = [...(data.pessoais || []), ...(data.profissionais || [])];
+        const allTechs = allProjects.flatMap((proj) => proj.tecnologias || []);
+        const uniqueTechs = Array.from(new Set(allTechs));
+        setHardSkills(uniqueTechs);
       });
     setYear(new Date().getFullYear());
   }, []);
@@ -212,139 +151,23 @@ export default function Home() {
     { value: "en", label: "EN" },
   ];
 
-  // Estilo customizado para o react-select
-  const customSelectStyles: StylesConfig<LangOption, false, GroupBase<LangOption>> = {
-    control: (provided) => ({
-      ...provided,
-      borderRadius: 9999,
-      minWidth: 80,
-      borderColor: "#d1d5db",
-      boxShadow: "none",
-      cursor: "pointer",
-      padding: "2px 4px",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      cursor: "pointer",
-      backgroundColor: state.isSelected ? "#1C398E" : state.isFocused ? "#F9FAFB" : "#fff",
-      color: state.isSelected ? "#fff" : "#1C398E",
-      borderRadius: 8,
-    }),
-    menu: (provided) => ({
-      ...provided,
-      borderRadius: 12,
-      overflow: "hidden",
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: "#1C398E",
-      fontWeight: 700,
-    }),
-    dropdownIndicator: (provided) => ({
-      ...provided,
-      color: "#1C398E",
-      padding: 4,
-    }),
-    indicatorSeparator: () => ({ display: "none" }),
-  };
-
   return (
     <div className="min-h-screen flex flex-col font-sans" style={{ background: COLOR_BG }}>
-      {/* Header sem linha divisória */}
-      <header className="w-full bg-white py-12 px-4 flex items-center justify-center mb-4 mt-8" style={{ background: COLOR_BG }}>
-        <div className="w-full max-w-5xl flex items-center justify-between gap-4">
-          <span className="font-extrabold text-4xl tracking-tight" style={{ color: COLOR_HEADER }}>{info ? info.nome : ""}</span>
-          <div className="flex items-center gap-4">
-            <div className="block md:hidden">
-              <button
-                className="p-2 rounded focus:outline-none border border-gray-200"
-                aria-label="Abrir menu"
-                onClick={() => setDrawerOpen(true)}
-              >
-                <span className="sr-only">Abrir menu</span>
-                <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-            <div className="hidden md:flex items-center gap-4">
-              <div style={{ minWidth: 80 }}>
-                <ClientOnlySelect
-                  options={langOptions}
-                  value={langOptions.find((o) => o.value === lang)}
-                  onChange={(opt: LangOption | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
-                  styles={customSelectStyles}
-                  isSearchable={false}
-                  aria-label="Selecionar idioma"
-                  className="focus:outline-none"
-                />
-              </div>
-              <nav className="flex gap-6 text-base font-medium">
-                <button
-                  className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
-                  onClick={() => scrollToSection(heroRef)}
-                >
-                  {lang === 'pt' ? 'Sobre' : 'About'}
-                </button>
-                <button
-                  className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
-                  onClick={() => scrollToSection(habilidadesRef)}
-                >
-                  {lang === 'pt' ? 'Habilidades' : 'Skills'}
-                </button>
-                <button
-                  className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
-                  onClick={() => scrollToSection(projetosRef)}
-                >
-                  {t[lang].navProjects}
-                </button>
-              </nav>
-            </div>
-          </div>
-        </div>
-        {/* Drawer mobile */}
-        <AnimatePresence>
-          {drawerOpen && (
-            <motion.div
-              className="fixed inset-0 z-50 flex"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setDrawerOpen(false)}
-            >
-              <motion.div
-                className="bg-white w-64 h-full shadow-2xl p-8 flex flex-col gap-8"
-                initial={{ x: -300 }}
-                animate={{ x: 0 }}
-                exit={{ x: -300 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                onClick={e => e.stopPropagation()}
-              >
-                <button className="self-end mb-8 text-2xl text-gray-400 hover:text-gray-700" onClick={() => setDrawerOpen(false)}>&times;</button>
-                <nav className="flex flex-col gap-6 text-lg font-medium">
-                  <button className="text-left" style={{ color: COLOR_HEADER }} onClick={() => { setDrawerOpen(false); scrollToSection(heroRef); }}>{lang === 'pt' ? 'Sobre' : 'About'}</button>
-                  <button className="text-left" style={{ color: COLOR_HEADER }} onClick={() => { setDrawerOpen(false); scrollToSection(habilidadesRef); }}>{lang === 'pt' ? 'Habilidades' : 'Skills'}</button>
-                  <button className="text-left" style={{ color: COLOR_HEADER }} onClick={() => { setDrawerOpen(false); scrollToSection(projetosRef); }}>{t[lang].navProjects}</button>
-                  <div className="mt-8">
-                    <ClientOnlySelect
-                      options={langOptions}
-                      value={langOptions.find((o) => o.value === lang)}
-                      onChange={(opt: LangOption | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
-                      styles={customSelectStyles}
-                      isSearchable={false}
-                      aria-label="Selecionar idioma"
-                      className="focus:outline-none"
-                    />
-                  </div>
-                </nav>
-              </motion.div>
-              <div className="flex-1 bg-black/30" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+      <Header
+        info={info}
+        lang={lang}
+        setLang={setLang}
+        langOptions={langOptions}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+        scrollToSection={scrollToSection}
+        heroRef={heroRef}
+        habilidadesRef={habilidadesRef}
+        projetosRef={projetosRef}
+        t={t}
+      />
 
-      {/* Hero Section - estilo inspirado na referência */}
+      {/* Hero Section */}
       <section ref={heroRef} className="w-full flex flex-col items-center justify-center min-h-[60vh] mb-8 px-2" style={{ background: COLOR_BG, paddingTop: '5rem', paddingBottom: '5rem' }}>
         {info && (
           <div className="w-full max-w-5xl flex flex-col md:flex-row items-center md:items-start gap-12 animate-fade-in">
@@ -613,20 +436,7 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Footer minimal */}
-      <footer className="w-full py-8 text-center animate-fade-in text-xs text-gray-400" style={{ background: COLOR_HEADER }}>
-        <div className="flex justify-center gap-6 mb-2">
-          {info && (
-            <>
-              <a href={info.linkedin} target="_blank" rel="noopener noreferrer" className="text-white-800 hover:text-blue-600 text-xl"><FaLinkedin /></a>
-              <a href={`mailto:${info.email}`} className="text-white-800 hover:text-white-600 text-xl"><FaEnvelope /></a>
-              <a href={info.github} target="_blank" rel="noopener noreferrer" className="text-white-800 hover:text-blue-600 text-xl"><FaGithub /></a>
-            </>
-          )}
-        </div>
-        © {year ?? ""} {info ? info.nome : ""}. Portfólio pessoal.
-      </footer>
+      <Footer info={info} year={year} />
     </div>
   );
 }
