@@ -2,13 +2,13 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaLinkedin, FaGithub, FaEnvelope, FaPhone } from "react-icons/fa";
 import ClientOnlySelect, { LangOption } from "./ClientOnlySelect";
 import customSelectStyles from "./customSelectStyles";
 import { COLOR_BG, COLOR_HEADER } from "../colors";
+import { PersonalInfo, Translations } from "../types";
 
 interface HeaderProps {
-  info: any;
+  info: PersonalInfo | null;
   lang: 'pt' | 'en';
   setLang: (lang: 'pt' | 'en') => void;
   langOptions: LangOption[];
@@ -18,7 +18,7 @@ interface HeaderProps {
   heroRef: React.RefObject<HTMLDivElement>;
   habilidadesRef: React.RefObject<HTMLDivElement>;
   projetosRef: React.RefObject<HTMLDivElement>;
-  t: any;
+  t: Translations;
 }
 
 export default function Header({

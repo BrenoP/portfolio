@@ -1,7 +1,9 @@
-const t = {
+import { Translations } from '../types';
+
+const t: Translations = {
   pt: {
-    profession: (info: any) => info?.profissao || '',
-    subtitle: (info: any) => info?.descricao || '',
+    profession: (info) => info?.profissao || '',
+    subtitle: (info) => info?.descricao || '',
     personalProjects: 'Projetos Pessoais',
     professionalProjects: 'Projetos Profissionais',
     navProjects: 'Projetos',
@@ -9,8 +11,8 @@ const t = {
     loading: 'Carregando informações...'
   },
   en: {
-    profession: (info: any) => info?.profissao || '',
-    subtitle: (info: any) => info?.descricao || '',
+    profession: (info) => info?.profissao || '',
+    subtitle: (info) => info?.descricao || '',
     personalProjects: 'Personal Projects',
     professionalProjects: 'Professional Projects',
     navProjects: 'Projects',

@@ -3,9 +3,10 @@
 import React from "react";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
 import { COLOR_HEADER } from "../colors";
+import { PersonalInfo } from "../types";
 
 interface FooterProps {
-  info: any;
+  info: PersonalInfo | null;
   year: number | null;
 }
 

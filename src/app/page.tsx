@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LangOption } from "./components/ClientOnlySelect";
 import Title from "./components/Title";
 import Button from "./components/Button";
+import { PersonalInfo, Projeto, Projects } from "./types";
 import {
   COLOR_BG,
   COLOR_HEADER,
@@ -25,33 +26,7 @@ import t from "./components/i18n";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-interface PersonalInfo {
-  nome: string;
-  profissao: string;
-  job: string;
-  descricao: string;
-  description: string;
-  email: string;
-  telefone: string;
-  localizacao: string;
-  linkedin: string;
-  github: string;
-  foto: string;
-}
 
-interface Projeto {
-  titulo: string;
-  descricao: string;
-  link: string;
-  tecnologias: string[];
-  data: string; // Adicionado para armazenar a data
-  imagem?: string; // Adicionado para armazenar a imagem
-}
-
-interface Projects {
-  pessoais: Projeto[];
-  profissionais: Projeto[];
-}
 
 export default function Home() {
   const [info, setInfo] = useState<PersonalInfo | null>(null);
