@@ -4,7 +4,7 @@ export async function GET() {
   // Informações pessoais básicas
   return NextResponse.json({
     nome: 'Breno Peretta',
-    profissao: 'Engenheiro Front-end',
+    profissao: 'Engenheiro Front-end 🚀',
     descricao: `
       Engenheiro de Front-End com foco em React e Next.js, especialista em construir interfaces modernas e performáticas.
     `,

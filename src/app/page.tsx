@@ -194,7 +194,9 @@ export default function Home() {
   // Função para abrir modal de projeto a partir do modal de habilidade
   const openProjectFromSkill = (proj: Projeto) => {
     setSkillModal(null);
-    setTimeout(() => setSelectedProject(proj), 300); // delay para animação
+    setTimeout(() => {
+      router.push(`/projetos/${encodeURIComponent(proj.titulo.toLowerCase().replace(/\s+/g, '-'))}`);
+    }, 300);
   };
 
   // Função para pegar o link do projeto (GitHub ou LinkedIn)
@@ -263,12 +265,21 @@ export default function Home() {
     indicatorSeparator: () => ({ display: "none" }),
   };
 
+  // Cores principais
+  const COLOR_BG = '#FFF7F3';
+  const COLOR_HEADER = '#332E2E';
+  const COLOR_SKILL_TAG_BG = '#FFF9C4'; // amarelo claro
+  const COLOR_SKILL_TAG_BORDER = '#FFECB3'; // amarelo mais escuro
+  const COLOR_SKILL_TAG_TEXT = '#332E2E';
+  const COLOR_SKILL_BAR = '#FFD600'; // barra lateral
+  const COLOR_SECTION_BLUE = '#1C398E';
+
   return (
-    <div className="min-h-screen flex flex-col font-sans" style={{ background: "#FFF7F3" }}>
+    <div className="min-h-screen flex flex-col font-sans" style={{ background: COLOR_BG }}>
       {/* Header sem linha divisória */}
-      <header className="w-full bg-white shadow-sm py-8 px-4 flex items-center justify-center" style={{ background: "#FFF7F3" }}>
+      <header className="w-full bg-white py-12 px-4 flex items-center justify-center mb-4 mt-8" style={{ background: COLOR_BG }}>
         <div className="w-full max-w-5xl flex items-center justify-between gap-4">
-          <span className="font-extrabold text-4xl tracking-tight text-gray-900">{info ? info.nome : ""}</span>
+          <span className="font-extrabold text-4xl tracking-tight" style={{ color: COLOR_HEADER }}>{info ? info.nome : ""}</span>
           <div className="flex items-center gap-4">
             <div style={{ minWidth: 80 }}>
               <Select
@@ -283,19 +294,19 @@ export default function Home() {
             </div>
             <nav className="flex gap-6 text-base font-medium">
               <button
-                className="hover:text-blue-800 transition-colors cursor-pointer"
-                onClick={() => scrollToSection(sobreRef)}
+                className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
+                onClick={() => scrollToSection(heroRef)}
               >
                 {lang === 'pt' ? 'Sobre' : 'About'}
               </button>
               <button
-                className="hover:text-blue-800 transition-colors cursor-pointer"
+                className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
                 onClick={() => scrollToSection(habilidadesRef)}
               >
                 {lang === 'pt' ? 'Habilidades' : 'Skills'}
               </button>
               <button
-                className="hover:text-blue-800 transition-colors cursor-pointer"
+                className="hover:text-blue-800 transition-colors cursor-pointer" style={{ color: COLOR_HEADER }}
                 onClick={() => scrollToSection(projetosRef)}
               >
                 {t[lang].navProjects}
@@ -306,15 +317,13 @@ export default function Home() {
       </header>
 
       {/* Hero Section - estilo inspirado na referência */}
-      <section ref={heroRef} className="w-full flex flex-col items-center justify-center min-h-[60vh]" style={{ background: "#FFF7F3", paddingTop: '5rem', paddingBottom: '5rem' }}>
+      <section ref={heroRef} className="w-full flex flex-col items-center justify-center min-h-[60vh] mb-8" style={{ background: COLOR_BG, paddingTop: '5rem', paddingBottom: '5rem' }}>
         {info && (
           <div className="w-full max-w-5xl flex flex-col md:flex-row items-center md:items-start gap-12 animate-fade-in">
             <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
-              <h1 className="text-5xl sm:text-7xl font-extrabold mb-4" style={{ color: '#332E2E', lineHeight: 1.1 }}>{info.profissao}</h1>
+              <h1 className="text-5xl sm:text-7xl font-extrabold mb-4" style={{ color: COLOR_HEADER, lineHeight: 1.1 }}>{info.profissao}</h1>
               <div className="text-xl text-gray-700 mb-4 max-w-2xl flex flex-col gap-2">
-                {info.descricao.split('.').map((frase, i) =>
-                  frase.trim() ? <p key={i}>{frase.trim()}.</p> : null
-                )}
+                {info.descricao}
               </div>
             </div>
             <div className="flex-1 flex justify-center md:justify-end items-center">
@@ -336,17 +345,17 @@ export default function Home() {
       </section>
 
       {/* Sobre mim + Soft Skills juntos */}
-      <section className="w-full border-b border-gray-200 py-20" style={{ background: "#1C398E" }}>
+      <section className="w-full border-b border-gray-200 py-20" style={{ background: COLOR_SECTION_BLUE }}>
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-8 items-center">
           <div className="flex-1 flex flex-col items-center md:items-start">
-            <p className="whitespace-pre-line text-base text-lg text-gray-700 mb-6 text-center md:text-left" style={{ color: 'white', margin: '5rem 0 5rem 0' }}>
+            <p className="whitespace-pre-line text-base text-lg text-gray-700 mb-6 text-center md:text-left" style={{ color: 'white' }}>
               {lang === 'pt'
                 ? sobre
                 : about}
             </p>
             <ul className="flex flex-wrap gap-3 justify-center md:justify-start">
               {softSkills.map((skill) => (
-                <li key={skill} className="bg-blue-50 text-blue-900 px-4 py-2 rounded-full text-sm font-medium shadow-sm border border-blue-100">
+                <li key={skill} className="bg-blue-50 text-blue-900 px-4 py-2 rounded-full text-sm font-medium border border-blue-100">
                   {skill}
                 </li>
               ))}
@@ -370,21 +379,22 @@ export default function Home() {
       </section> */}
 
       {/* Habilidades Section - tópicos estilizado sem cards */}
-      <section ref={habilidadesRef} className="w-full border-b border-gray-200 py-20" style={{ background: "#FFF7F3" }}>
+      <section ref={habilidadesRef} className="w-full border-b border-gray-200 py-20" style={{ background: COLOR_BG }}>
         <div className="max-w-5xl mx-auto">
           <h3 className="text-3xl font-bold mb-12 text-left">{lang === 'pt' ? 'Habilidades' : 'Skills'}</h3>
           <div className="flex flex-col gap-12">
             {habilidadesTopicos.length > 0 ? habilidadesTopicos.map((topico, idx) => (
               <div key={topico.titulo} className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="block w-2 h-8 rounded bg-yellow-300" />
-                  <h4 className="text-lg font-bold text-[#332E2E] tracking-wide uppercase">{topico.titulo}</h4>
+                  <span className="block w-2 h-8 rounded" style={{ background: COLOR_SKILL_BAR }} />
+                  <h4 className="text-lg font-bold" style={{ color: COLOR_HEADER, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{topico.titulo}</h4>
                 </div>
                 <div className="flex flex-wrap gap-3 mt-2">
                   {topico.skills.map((skill) => (
                     <button
                       key={skill}
-                      className="bg-yellow-100 text-yellow-900 px-5 py-2 rounded-full text-base font-mono shadow hover:shadow-md border border-yellow-200 focus:outline-none hover:bg-yellow-200 transition cursor-pointer"
+                      className="px-5 py-2 rounded-full text-base font-mono shadow hover:shadow-md focus:outline-none transition cursor-pointer"
+                      style={{ background: COLOR_SKILL_TAG_BG, color: COLOR_SKILL_TAG_TEXT, border: `1px solid ${COLOR_SKILL_TAG_BORDER}` }}
                       onClick={() => openSkillModal(skill)}
                     >
                       {skill}
@@ -410,9 +420,9 @@ export default function Home() {
       </section>
 
       {/* Projetos Section - todos juntos */}
-      <section ref={projetosRef} className="w-full py-20" style={{ background: "#FFF7F3" }}>
+      <section ref={projetosRef} className="w-full py-20" style={{ background: COLOR_BG }}>
         <div className="max-w-5xl mx-auto">
-          <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: '#332E2E' }}>{lang === 'pt' ? 'Projetos' : 'Projects'}</h3>
+          <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: COLOR_HEADER }}>{lang === 'pt' ? 'Projetos' : 'Projects'}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
             {allProjects.map((proj) => (
               <button
@@ -427,7 +437,7 @@ export default function Home() {
                 )}
                 <div className="flex flex-col gap-1 mb-2 px-8 pt-6">
                   <span className="text-xs text-gray-400">{proj.data}</span>
-                  <h4 className="text-lg font-semibold mb-1 group-hover:no-underline" style={{ color: '#332E2E' }}>{proj.titulo}</h4>
+                  <h4 className="text-lg font-semibold mb-1 group-hover:no-underline" style={{ color: COLOR_HEADER }}>{proj.titulo}</h4>
                 </div>
                 <p className="text-gray-700 mb-2 px-8">{proj.descricao.length > 100 ? proj.descricao.slice(0, 100) + '...' : proj.descricao}</p>
                 <div className="flex flex-wrap gap-2 mt-2 px-8 pb-6">
@@ -442,8 +452,8 @@ export default function Home() {
       </section>
 
       {/* Quem já contou com meu trabalho - carrossel de imagens */}
-      <section className="w-full py-20 overflow-x-hidden" style={{ background: "#FFF7F3" }}>
-        <h3 className="text-3xl font-bold mb-8 text-center" style={{ color: '#332E2E' }}>{lang === 'pt' ? 'Quem já contou com meu trabalho' : 'Who has trusted my work'}</h3>
+      <section className="w-full py-20 overflow-x-hidden" style={{ background: COLOR_BG }}>
+        <h3 className="text-3xl font-bold mb-8 text-center" style={{ color: COLOR_HEADER }}>{lang === 'pt' ? 'Quem já contou com meu trabalho' : 'Who has trusted my work'}</h3>
         <div style={{ maxWidth: 900, width: '60vw', margin: '0 auto' }}>
           <Slider
             dots={false}
@@ -486,7 +496,7 @@ export default function Home() {
       </section>
 
       {/* Contato Section - texto grande + redes sociais */}
-      <section className="w-full py-20" style={{ background: "#332E2E" }}>
+      <section className="w-full py-20" style={{ background: COLOR_HEADER }}>
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1">
             <h2 className="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight text-center md:text-left" style={{ color: "#fff" }}>
@@ -588,7 +598,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Footer minimal */}
-      <footer className="w-full py-8 text-center animate-fade-in text-xs text-gray-400" style={{ background: "#332E2E" }}>
+      <footer className="w-full py-8 text-center animate-fade-in text-xs text-gray-400" style={{ background: COLOR_HEADER }}>
         <div className="flex justify-center gap-6 mb-2">
           {info && (
             <>

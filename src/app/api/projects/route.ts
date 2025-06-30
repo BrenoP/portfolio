@@ -5,7 +5,7 @@ export async function GET() {
   return NextResponse.json({
     pessoais: [
       {
-        titulo: 'Jogo adivinhação de cores em Next',
+        titulo: 'Jogo adivinhe as cores em Next',
         descricao: `
           O projeto é um jogo de cores, onde o jogador deve escolher rapidamente a cor que está escrita no card grande, isso antes que o tempo acabe.
           Fiz o projeto com o intuito de estudar um pouco mais do ambiente NextJs, e nesse projeto quis ver principalmente como o Next trabalha com uma API já integrada com o Front. O jogo é simples, mas deu pra ver muitos conceitos do Next com ele.
@@ -70,7 +70,7 @@ export async function GET() {
         imagem: '/projects/ultragaz.jpg',
       },
       {
-        titulo: 'C&A',
+        titulo: 'Site principal CEA',
         descricao: `
           Atuação no time da parte de produtos e de marketplace no site principal da C&A, atuando como desenvolvedor VTEX (plataforma para Ecommerce) e utilizando a própria plataforma para controle das páginas. 
           Era utilizado o padrão de micro front-ends para a organização das diferentes partes do site e o mesmo era hospedado na Cloud da própria VTEX.
@@ -164,7 +164,7 @@ export async function GET() {
         link: 'https://vivo.com.br/para-voce/ajuda/mais-ajuda/aura',
         tecnologias: [
           "JavaScript", 
-          "Azure DevOps Server", 
+          "Azure devops", 
           "React query", 
           "Micro front-end", 
           "React Hooks", 
