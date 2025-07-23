@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { FaLinkedin, FaGithub, FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import Select from "react-select";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 interface PersonalInfo {
   nome: string;
@@ -190,15 +193,30 @@ export default function Home() {
   };
 
   // Unir todos os projetos para exibição única
-  const allProjects = projects ? [...projects.pessoais, ...projects.profissionais] : [];
+  const allProjects = projects
+    ? [...projects.pessoais, ...projects.profissionais]
+        .map((proj, idx) => ({
+          ...proj,
+          // Exemplo de datas mock: datas decrescentes
+          data: [
+            '2024-06-01', '2024-05-15', '2024-04-10', '2024-03-20', '2024-02-01',
+            '2023-12-10', '2023-10-05', '2023-08-15', '2023-06-01', '2023-04-10',
+            '2023-02-01', '2022-12-10', '2022-10-05', '2022-08-15', '2022-06-01',
+            '2022-04-10', '2022-02-01', '2021-12-10', '2021-10-05', '2021-08-15',
+          ][idx % 20] || '2021-01-01',
+        }))
+        .sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime())
+    : [];
 
   // Imagens fictícias para o carrossel de clientes
   const clientImages = [
-    '/public/globe.svg',
-    '/public/next.svg',
-    '/public/vercel.svg',
-    '/public/window.svg',
-    '/public/file.svg',
+    '/public/zappts.png',
+    '/public/ultragaz.png',
+    '/public/cea.png',
+    '/public/compass.png',
+    '/public/porto.png',
+    '/public/meetime.png',
+    '/public/vivo.png',
   ];
 
   // Opções para o select de linguagem
@@ -364,8 +382,11 @@ export default function Home() {
                 onClick={() => router.push(`/projetos/${encodeURIComponent(proj.titulo.toLowerCase().replace(/\s+/g, '-'))}`)}
                 className="block w-full text-left bg-white border border-gray-200 rounded-xl p-8 shadow-sm transition-all group focus:outline-none cursor-pointer hover:bg-[#F9FAFB]"
               >
-                <h4 className="text-lg font-semibold mb-2 group-hover:no-underline" style={{ color: '#332E2E' }}>{proj.titulo}</h4>
-                <p className="text-gray-700 mb-2">{proj.descricao}</p>
+                <div className="flex flex-col gap-1 mb-2">
+                  <span className="text-xs text-gray-400">{proj.data && new Date(proj.data).toLocaleDateString('pt-BR', { year: 'numeric', month: 'short' })}</span>
+                  <h4 className="text-lg font-semibold mb-1 group-hover:no-underline" style={{ color: '#332E2E' }}>{proj.titulo}</h4>
+                </div>
+                <p className="text-gray-700 mb-2">{proj.descricao.length > 100 ? proj.descricao.slice(0, 100) + '...' : proj.descricao}</p>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {proj.tecnologias.map((tec) => (
                     <span key={tec} className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-mono">{tec}</span>
@@ -381,14 +402,36 @@ export default function Home() {
       <section className="w-full py-20" style={{ background: "#FFF7F3" }}>
         <div className="max-w-5xl mx-auto">
           <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: '#332E2E' }}>{lang === 'pt' ? 'Quem já contou com meu trabalho' : 'Who has trusted my work'}</h3>
-          <div className="flex gap-8 overflow-x-auto py-4 scrollbar-thin scrollbar-thumb-blue-200">
+          <Slider
+            dots={false}
+            infinite={true}
+            speed={500}
+            slidesToShow={3.5}
+            slidesToScroll={1}
+            responsive={[
+              { breakpoint: 1024, settings: { slidesToShow: 2.5 } },
+              { breakpoint: 768, settings: { slidesToShow: 1.5 } },
+              { breakpoint: 480, settings: { slidesToShow: 1 } },
+            ]}
+            arrows={true}
+            className="carousel-clients half-slide-carousel"
+          >
             {clientImages.map((img, idx) => (
-              <div key={idx} className="flex-shrink-0 w-40 h-40 bg-gray-100 rounded-xl flex items-center justify-center shadow border">
-                <Image src={img.replace('/public', '')} alt={`Cliente ${idx + 1}`} width={120} height={120} />
+              <div key={idx} className="flex items-center justify-center w-full h-32 md:h-36 lg:h-40 px-4">
+                <Image src={img.replace('/public', '')} alt={`Cliente ${idx + 1}`} width={180} height={80} style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
               </div>
             ))}
-          </div>
+          </Slider>
         </div>
+        <style jsx global>{`
+          .half-slide-carousel .slick-list {
+            overflow: visible !important;
+            padding-right: 0 !important;
+          }
+          .half-slide-carousel .slick-slide {
+            transition: transform 0.3s;
+          }
+        `}</style>
       </section>
 
       {/* Contato Section - texto grande + redes sociais */}
@@ -506,15 +549,6 @@ export default function Home() {
         </div>
         © {new Date().getFullYear()} {info ? info.nome : ""}. Portfólio pessoal.
       </footer>
-      <style jsx global>{`
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.8s both;
-        }
-      `}</style>
     </div>
   );
 }
