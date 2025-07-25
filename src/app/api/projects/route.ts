@@ -194,19 +194,34 @@ export async function GET() {
     ],
     formacoes: [
       {
-        titulo: 'Análise e Desenvolvimento de Sistemas',
+        titulo: 'Graduação em Análise e desenvolvimento de sistemas',
         descricao: 'Formação superior na ETEP Faculdades, com foco em desenvolvimento web, arquitetura de software e metodologias ágeis.',
-        linkCertificado: 'https://www.linkedin.com/school/etep-faculdades/'
+        linkCertificado: 'https://www.linkedin.com/in/brenoperetta/details/certifications/'
       },
       {
-        titulo: 'React com Typescript',
-        descricao: 'Curso avançado de ReactJS com Typescript, abordando hooks, context API e testes.',
-        linkCertificado: 'https://www.udemy.com/certificate/react-typescript/'
+        titulo: 'Bootcamp Desenvolvedor Fullstack',
+        descricao: 'Curso avançado de desenvolvimento no Instituto de Gestão e tecnologia da informação',
+        linkCertificado: 'https://drive.google.com/file/d/1MOujSp5C9BZzX5EzyGtHjMVH09Qa33WU/view'
       },
       {
-        titulo: 'Inglês Avançado',
-        descricao: 'Curso de inglês avançado com foco em conversação e leitura técnica.',
-        linkCertificado: 'https://www.linkedin.com/in/breno/'
+        titulo: 'Formação Front-end ALura',
+        descricao: 'Formação de Front-end completa na Alura, totalizando mais de 14 cursos de tópicos diferentes e mais de 150 horas de conteúdo.',
+        linkCertificado: 'https://cursos.alura.com.br/user/rodrigoperetta/degree-front-end-232/certificate'
+      },
+      {
+        titulo: 'Certificado GIT da Coodesh',
+        descricao: 'Certificado de versionamento com git pela Coodesh.',
+        linkCertificado: 'https://coodesh.com/share/certificate/a250d150-e3b3-11ed-9234-1b39e47c8969'
+      },
+      {
+        titulo: 'Técnico em informática ETEC',
+        descricao: 'Formação em técnico de informática pela etec integrado ao ensino médio',
+        linkCertificado: ''
+      },
+      {
+        titulo: 'Inglês avançado',
+        descricao: 'Formação de inglês avançado pelo Metodo Callan',
+        linkCertificado: ''
       }
     ],
     experiencias: [

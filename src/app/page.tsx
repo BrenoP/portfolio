@@ -11,10 +11,20 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState as useReactState } from "react";
 
+// Componente para evitar hydration error do react-select
+function ClientOnlySelect(props: any) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  return <Select {...props} />;
+}
+
 interface PersonalInfo {
   nome: string;
   profissao: string;
+  job: string;
   descricao: string;
+  description: string;
   email: string;
   telefone: string;
   localizacao: string;
@@ -41,6 +51,7 @@ export default function Home() {
   const [info, setInfo] = useState<PersonalInfo | null>(null);
   const [projects, setProjects] = useState<Projects | null>(null);
   const [lang, setLang] = useState<'pt' | 'en'>('pt');
+  const [year, setYear] = useState<number | null>(null);
 
   // Adicione as soft skills e habilidades para exibir nas novas seções
   const softSkills = [
@@ -177,6 +188,7 @@ export default function Home() {
         if (data.habilidades) setHabilidadesTopicos(data.habilidades);
         if (data.sobre) setSobreParagrafos(data.sobre);
       });
+    setYear(new Date().getFullYear());
   }, []);
 
   // Função para scroll suave
@@ -299,7 +311,7 @@ export default function Home() {
             </div>
             <div className="hidden md:flex items-center gap-4">
               <div style={{ minWidth: 80 }}>
-                <Select
+                <ClientOnlySelect
                   options={langOptions}
                   value={langOptions.find((o) => o.value === lang)}
                   onChange={(opt: { value: string; label: string } | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
@@ -356,7 +368,7 @@ export default function Home() {
                   <button className="text-left" style={{ color: COLOR_HEADER }} onClick={() => { setDrawerOpen(false); scrollToSection(habilidadesRef); }}>{lang === 'pt' ? 'Habilidades' : 'Skills'}</button>
                   <button className="text-left" style={{ color: COLOR_HEADER }} onClick={() => { setDrawerOpen(false); scrollToSection(projetosRef); }}>{t[lang].navProjects}</button>
                   <div className="mt-8">
-                    <Select
+                    <ClientOnlySelect
                       options={langOptions}
                       value={langOptions.find((o) => o.value === lang)}
                       onChange={(opt: { value: string; label: string } | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
@@ -379,9 +391,9 @@ export default function Home() {
         {info && (
           <div className="w-full max-w-5xl flex flex-col md:flex-row items-center md:items-start gap-12 animate-fade-in">
             <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
-              <h1 className="text-5xl sm:text-7xl font-extrabold mb-4" style={{ color: COLOR_HEADER, lineHeight: 1.1 }}>{info.profissao}</h1>
+              <h1 className="text-5xl sm:text-7xl font-extrabold mb-4" style={{ color: COLOR_HEADER, lineHeight: 1.1 }}>{lang === 'pt' ? info.profissao : info.job}</h1>
               <div className="text-xl text-gray-700 mb-4 max-w-2xl flex flex-col gap-2">
-                {info.descricao}
+                {lang === 'pt' ? info.descricao : info.description}
               </div>
             </div>
             <div className="flex-1 flex justify-center md:justify-end items-center">
@@ -407,15 +419,15 @@ export default function Home() {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12 px-2">
           <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
             <h2 className="text-4xl font-extrabold mb-2" style={{ color: COLOR_BG }}>
-              Saiba mais sobre mim
+              {lang === 'pt' ? 'Saiba mais sobre mim' : 'Learn more about me'}
             </h2>
             <p className="text-lg mb-4" style={{ color: COLOR_BG }}>
-              Formações acadêmicas e experiências profissionais detalhadas
+              {lang === 'pt' ? 'Formações acadêmicas e experiências profissionais detalhadas' : 'Academic background and detailed professional experiences'}
             </p>
           </div>
           <div className="flex-1 flex justify-center md:justify-end w-full">
             <a href="/sobre" className="px-8 py-3 bg-[#ffc300] text-[#001d3d] rounded-full text-lg font-semibold shadow hover:bg-[#ffe066] transition cursor-pointer flex items-center gap-2 w-full md:w-auto justify-center md:justify-end">
-              Ir para página sobre mim
+              {lang === 'pt' ? 'Ir para página sobre mim' : 'Go to about me page'}
             </a>
           </div>
         </div>
@@ -666,7 +678,7 @@ export default function Home() {
             </>
           )}
         </div>
-        © {new Date().getFullYear()} {info ? info.nome : ""}. Portfólio pessoal.
+        © {year ?? ""} {info ? info.nome : ""}. Portfólio pessoal.
       </footer>
     </div>
   );

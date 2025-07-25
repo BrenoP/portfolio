@@ -47,7 +47,7 @@ export default function SobrePage() {
       </section>
 
       {/* Sobre mim */}
-      <section className="w-full py-12 flex flex-col items-center px-2" style={{ background: COLOR_BG }}>
+      <section className="w-full pb-12 flex flex-col items-center px-2" style={{ background: COLOR_BG }}>
         <div className="max-w-3xl w-full mx-auto flex flex-col gap-4">
           {sobre.length > 0 && sobre.map((p, i) => (
             <p key={i} className="text-lg text-gray-800 leading-relaxed">{p}</p>
@@ -65,7 +65,7 @@ export default function SobrePage() {
                 <h4 className="text-lg font-bold mb-1 text-[#001d3d]">{f.titulo}</h4>
                 <p className="text-gray-700 mb-2">{f.descricao}</p>
                 <a href={f.linkCertificado} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-[#ffc300] text-[#001d3d] rounded-full font-semibold shadow hover:bg-[#ffe066] transition w-fit">
-                  Ver certificado <FaExternalLinkAlt />
+                  Ver credencial <FaExternalLinkAlt />
                 </a>
               </div>
             ))}
@@ -83,7 +83,7 @@ export default function SobrePage() {
             {experiencias.map((exp, idx) => (
               <div key={exp.titulo + exp.empresa} className="relative flex flex-row gap-6 bg-white rounded-2xl shadow-lg p-8 border border-gray-100 z-10 items-center max-w-2xl mx-auto">
                 {exp.logo && (
-                  <div className="flex-shrink-0 flex items-center justify-center w-20 h-20 bg-gray-100 rounded-xl overflow-hidden mr-4">
+                  <div className="hidden md:flex flex-shrink-0 items-center justify-center w-20 h-20 bg-gray-100 rounded-xl overflow-hidden mr-4">
                     <Image src={exp.logo.replace('/public', '')} alt={exp.empresa} width={64} height={64} className="object-contain w-full h-full" />
                   </div>
                 )}

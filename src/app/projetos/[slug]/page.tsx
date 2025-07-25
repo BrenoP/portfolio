@@ -119,7 +119,7 @@ export default function ProjetoPage() {
         </div>
         <div className="flex flex-col md:flex-row gap-10 items-center">
           <div className="flex-1">
-            <p className="text-lg text-gray-700 mb-4">{project.descricao}</p>
+            <p className="text-lg text-gray-700 mb-4 whitespace-pre-line">{project.descricao}</p>
             <a
               href={project.link}
               target="_blank"
