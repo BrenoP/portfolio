@@ -11,8 +11,6 @@ import {
   COLOR_SKILL_TAG_BG,
   COLOR_SKILL_TAG_BORDER,
   COLOR_SKILL_TAG_TEXT,
-  COLOR_SKILL_BAR,
-  COLOR_SECTION_BLUE,
 } from "../../colors";
 
 interface Projeto {

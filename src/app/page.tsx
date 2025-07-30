@@ -5,7 +5,10 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FaLinkedin, FaGithub, FaEnvelope, FaPhone } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import Select, { StylesConfig, GroupBase } from "react-select";
+import { StylesConfig, GroupBase } from "react-select";
+import ClientOnlySelect, { LangOption } from "./components/ClientOnlySelect";
+import Title from "./components/Title";
+import Button from "./components/Button";
 import {
   COLOR_BG,
   COLOR_HEADER,
@@ -19,16 +22,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState as useReactState } from "react";
-
-// Tipos para o select de linguagem
-type LangOption = { value: "pt" | "en"; label: string };
-// Componente para evitar hydration error do react-select
-function ClientOnlySelect(props: React.ComponentProps<typeof Select<LangOption, false, GroupBase<LangOption>>>) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-  return <Select<LangOption, false, GroupBase<LangOption>> {...props} />;
-}
 
 interface PersonalInfo {
   nome: string;
@@ -279,7 +272,7 @@ export default function Home() {
                 <ClientOnlySelect
                   options={langOptions}
                   value={langOptions.find((o) => o.value === lang)}
-                  onChange={(opt) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
+                  onChange={(opt: LangOption | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
                   styles={customSelectStyles}
                   isSearchable={false}
                   aria-label="Selecionar idioma"
@@ -336,7 +329,7 @@ export default function Home() {
                     <ClientOnlySelect
                       options={langOptions}
                       value={langOptions.find((o) => o.value === lang)}
-                      onChange={(opt) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
+                      onChange={(opt: LangOption | null) => setLang((opt?.value === 'pt' || opt?.value === 'en') ? opt.value : 'pt')}
                       styles={customSelectStyles}
                       isSearchable={false}
                       aria-label="Selecionar idioma"
@@ -391,33 +384,22 @@ export default function Home() {
             </p>
           </div>
           <div className="flex-1 flex justify-center md:justify-end w-full">
-            <a href="/sobre" className="px-8 py-3 bg-[#ffc300] text-[#001d3d] rounded-full text-lg font-semibold shadow hover:bg-[#ffe066] transition cursor-pointer flex items-center gap-2 w-full md:w-auto justify-center md:justify-end">
+            <Button
+              href="/sobre"
+              className="px-8 py-3 bg-[#ffc300] text-[#001d3d] rounded-full text-lg font-semibold shadow hover:bg-[#ffe066] transition flex items-center gap-2 w-full md:w-auto justify-center md:justify-end"
+            >
               {lang === 'pt' ? 'Ir para página sobre mim' : 'Go to about me page'}
-            </a>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Texto grande + imagem ao lado */}
-      {/* <section className="w-full border-b border-gray-200 py-20" style={{ background: "#1C398E" }}>
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1">
-            <h2 className="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight text-center md:text-left" style={{ color: "#fff" }}>
-              {lang === 'pt' ? 'Transformando ideias em experiências digitais memoráveis.' : 'Turning ideas into memorable digital experiences.'}
-            </h2>
-          </div>
-          <div className="flex-1 flex justify-center">
-            <Image src="/globe.svg" alt="Globo" width={220} height={220} className="rounded-2xl shadow-lg" />
-          </div>
-        </div>
-      </section> */}
-
       {/* Habilidades Section - tópicos estilizado sem cards */}
       <section ref={habilidadesRef} className="w-full border-b border-gray-200 py-20" style={{ background: COLOR_BG }}>
         <div className="max-w-5xl mx-auto px-2">
-          <h3 className="text-3xl font-bold mb-12 text-left">{lang === 'pt' ? 'Habilidades' : 'Skills'}</h3>
+          <Title size="text-3xl" className="mb-12 text-left">{lang === 'pt' ? 'Habilidades' : 'Skills'}</Title>
           <div className="flex flex-col gap-12">
-            {habilidadesTopicos.length > 0 ? habilidadesTopicos.map((topico, idx) => (
+            {habilidadesTopicos.length > 0 ? habilidadesTopicos.map((topico) => (
               <div key={topico.titulo} className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <span className="block w-2 h-8 rounded" style={{ background: COLOR_SKILL_BAR }} />
@@ -456,7 +438,7 @@ export default function Home() {
       {/* Projetos Section - todos juntos */}
       <section ref={projetosRef} className="w-full py-20" style={{ background: COLOR_BG }}>
         <div className="max-w-5xl mx-auto px-2">
-          <h3 className="text-3xl font-bold mb-8 text-left" style={{ color: COLOR_HEADER }}>{lang === 'pt' ? 'Projetos' : 'Projects'}</h3>
+          <Title size="text-3xl" color={COLOR_HEADER} className="mb-8 text-left">{lang === 'pt' ? 'Projetos' : 'Projects'}</Title>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
             {allProjects.map((proj) => (
               <button
@@ -467,7 +449,7 @@ export default function Home() {
               >
                 {proj.imagem && (
                   <div className="w-full h-56 rounded-t-xl overflow-hidden flex items-center justify-center bg-gray-100" style={{ height: '150px' }}>
-                    <Image src={proj.imagem} alt={proj.titulo} className="object-cover w-full h-full" style={{ height: '224px', width: '100%' }} />
+                    <Image src={proj.imagem} alt={proj.titulo} className="object-cover w-full h-full" width={200} height={224} style={{ height: '224px', width: '100%' }} />
                   </div>
                 )}
                 <div className="flex flex-col gap-1 mb-2 px-8 pt-6 flex-1">

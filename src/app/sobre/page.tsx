@@ -7,10 +7,6 @@ import { FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
 import {
   COLOR_BG,
   COLOR_HEADER,
-  COLOR_SKILL_TAG_BG,
-  COLOR_SKILL_TAG_BORDER,
-  COLOR_SKILL_TAG_TEXT,
-  COLOR_SKILL_BAR,
   COLOR_SECTION_BLUE,
 } from "../colors";
 
@@ -77,7 +73,7 @@ export default function SobrePage() {
         <div className="max-w-4xl mx-auto">
           <h3 className="text-3xl font-bold mb-10 text-white">Formação Acadêmica</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {formacoes.map((f, idx) => (
+            {formacoes.map((f) => (
               <div key={f.titulo} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border border-gray-100 hover:shadow-2xl transition">
                 <h4 className="text-lg font-bold mb-1 text-[#001d3d]">{f.titulo}</h4>
                 <p className="text-gray-700 mb-2">{f.descricao}</p>
